@@ -1,0 +1,20 @@
+﻿
+@model Dictionary<string, string>
+
+<div class="list-block media-list no-margin-top-2">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <div class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div style="opacity:0.5;">@item.Key</div>
+                        </div>
+                        <div class="item-subtitle2">@item.Value</div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

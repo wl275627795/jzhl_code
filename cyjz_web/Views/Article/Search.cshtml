@@ -1,0 +1,106 @@
+﻿
+<div data-page="article-search" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/article/index" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                学术查询
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <form id="formArticleSearch" class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">标题或关键字</div>
+                            <div class="item-input">
+                                <input type="text" name="title" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                @*<li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">类型</div>
+                            <div class="item-input">
+                                <select name="type">
+                                    <option value="0" selected>全部</option>
+                                    <option value="1">学术文章</option>
+                                    <option value="2">科普文章</option>
+                                    <option value="3">新闻</option>
+                                    <option value="4">病例</option>
+                                    <option value="5">决策指导</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>*@
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">发布日期自</div>
+                            <div class="item-input">
+                                <input type="date" name="fromDT" value="@(DateTime.Today.AddMonths(-1).ToString("yyyy-MM-dd"))">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">发布日期到</div>
+                            <div class="item-input">
+                                <input type="date" name="toDT" value="@(DateTime.Today.ToString("yyyy-MM-dd"))">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">作者</div>
+                            <div class="item-input">
+                                <input type="text" name="author">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">作者单位</div>
+                            <div class="item-input">
+                                <input type="text" name="author_dept">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </form>
+
+        <div class="content-block">
+            <div class="row">
+                <div class="col-50">
+                    <a href="#" class="button button-big button-fill color-blue button-raised active" onclick="ArticleSearch()">查询</a>
+                </div>
+                <div class="col-50">
+                    <a href="#" class="button button-big button-raised" onclick="document.getElementById('formArticleSearch').reset()">重置</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

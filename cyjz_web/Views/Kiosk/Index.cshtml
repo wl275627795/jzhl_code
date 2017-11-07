@@ -1,0 +1,52 @@
+﻿
+<div data-page="kiosk-list" class="page navbar-fixed tabbar-fixed">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+            </div>
+            <div class="center">
+                自助问诊
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <form class="searchbar">
+        <div class="searchbar-input">
+            <input type="search" placeholder="搜索患者病历号或姓名">
+            <a href="#" class="searchbar-clear"></a>
+        </div>
+        <a href="#" class="searchbar-cancel">取消</a>
+    </form>
+    <div class="searchbar-overlay"></div>
+
+    <div class="page-content with-subnavbar pull-to-refresh-content" style="padding-bottom:80px;">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="list-block no-margin-top">
+            <ul>
+                @for (int i = 0; i < 10; i++)
+                {
+                    <li>
+                        <a href="/kiosk/patient?pvid=@(i)" class="item-link item-content">
+                            <div class="item-media" style="min-width:24px;">
+                                <img src="~/Contents/image/avatar/default/user.png" width="24" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">0022101@(i)</div>
+                                <div class="item-after">00@(i)</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

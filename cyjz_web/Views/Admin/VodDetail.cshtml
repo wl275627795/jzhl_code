@@ -1,0 +1,119 @@
+﻿@model MH.Rescue.BIZ.teaching_vod
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>教学回放详情</title>
+</head>
+<body>
+    <div>
+        <h4>教学回放详情</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                标题
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.title) 
+            </dd>
+            <dt>
+                描述
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+            <dt>
+                主讲人姓名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.teacher_name)
+            </dd>
+
+            <dt>
+                主讲人职称
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.teacher_title)
+            </dd>
+
+            <dt>
+                主讲人科室
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.teacher_dept)
+            </dd>
+
+            <dt>
+                主讲人单位
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.teacher_org)
+            </dd>
+
+
+            <dt>
+                提交时间
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.created_dt)
+            </dd>
+            <dt>
+                视频编码
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.video_code)
+            </dd>
+  
+
+            <dt>
+                浏览次数
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.view_count)
+            </dd>
+
+            <dt>
+                点赞次数
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.like_count)
+            </dd>
+
+            <dt>
+                视频类型
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.video_type)
+            </dd>
+
+            <dt>
+                视频链接
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.pull_url)
+            </dd>
+
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("删除", "VodDelete", new { id = Model.id }) |
+        @Html.ActionLink("返回教学回放列表", "VodList")
+    </p>
+</body>
+</html>

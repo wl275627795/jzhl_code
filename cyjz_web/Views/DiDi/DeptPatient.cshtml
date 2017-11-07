@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>黄金急救</title>
+    <link href="~/Contents/framework7/css/framework7-icons.css" rel="stylesheet" />
+    <link href="~/Contents/framework7/css/framework7.ios.css" rel="stylesheet" />
+    <link href="~/Contents/framework7/css/framework7.ios.colors.css" rel="stylesheet" />
+    <link href="~/Contents/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Contents/app-mainstyle.css" rel="stylesheet" />
+</head>
+<body>
+@{
+    var show_tab = Request.QueryString["tab"];
+    var init_tab = (show_tab!="2") & (show_tab != "3") & (show_tab != "4");
+   }
+    <div data-page="DeptPatient" class="page navbar-fixed toolbar-fixed no-main-tabbar page-on-center">
+
+        <div class="navbar bg-blue color-white">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a >
+                        
+                    </a>
+                </div>
+                <div class="center">
+                    自助问诊
+                </div>
+                <div class="right">
+                </div>
+                <div class="subnavbar sliding ios-only">
+                    <div class="buttons-row">
+                        <a href="?tab=1" class="button tab-link @(((show_tab=="1")|init_tab)? "active":"")" >基本信息</a>
+                        <a href="?tab=2" class="button tab-link @((show_tab=="2")? "active":"")">现病史</a>
+                        <a href="?tab=3" class="button tab-link @((show_tab=="3")? "active":"")">既往史</a>
+                        <a href="?tab=4" class="button tab-link @((show_tab=="4")? "active":"")">个人史</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toolbar toolbar-bottom">
+            <div class="toolbar-inner">
+                <a href="#" class="link">
+                    <i class="f7-icons">redo</i>
+                    <span> 重新填写</span>
+                </a>
+
+                <div class="right">
+                    <a href="#" class="link">
+                        <i class="f7-icons">check_round</i>
+                        <span>确认提交</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content with-subnavbar" style="padding-bottom:50px;">
+            <form id="DeptPatientEdit">
+                <div class="tabs">
+                    <div id="tab1" class="tab @(((show_tab=="1")|init_tab)? "active":"")" >
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">
+                                                病历号
+                                                <span class="color-red">*</span>
+                                            </div>
+                                            <div class="item-input">
+                                                <input type="text" name="patient_id" placeholder="必填" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">姓名</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="patient_name" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">患者性别</div>
+                                            <div class="item-input">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">出生日期</div>
+                                            <div class="item-input">
+                                                <input type="date" name="birthday">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">身高</div>
+                                            <div class="item-input">
+                                                <input type="text" name="height" placeholder="单位：厘米">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">体重</div>
+                                            <div class="item-input">
+                                                <input type="text" name="weight" placeholder="单位：千克">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">职业</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="occupation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">血型</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="blood_type">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="tab2" class="tab @((show_tab=="2")? "active":"")">
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">主要症状</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">症状持续时间</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="symptom_time">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">是否就诊过</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="symptom_time">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">接受过的治疗</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">已用药物</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div id="tab3" class="tab @((show_tab=="3")? "active":"")">
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">过敏药物</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">是否输过血</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="inject_blood">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">曾做过的手术</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">是否得过结核</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="tuber_history">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">是否得过肝炎</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="hepa_history">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">高血压病史</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->起病年龄</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="hypertens_age">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->最高血压</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="hypertens_max">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">->现/曾用药物</div>
+                                                <div class="item-input">
+                                                    <textarea></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->其他情况</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">糖尿病病史</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->起病年龄</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="diabe_age">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->血糖范围</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="" name="diabe_range">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->现/曾用药物</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">->其他情况</div>
+                                            <div class="item-input">
+                                                <textarea></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="tab4" class="tab @((show_tab=="4")? "active":"")">
+                            <div class="list-block">
+                                <ul>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">吸烟史</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">->吸烟情况</div>
+                                                <div class="item-input">
+                                                    <textarea></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">饮酒史</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">->饮酒情况</div>
+                                                <div class="item-input">
+                                                    <textarea></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">家族病史</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">->遗传病情况</div>
+                                                <div class="item-input">
+                                                    <textarea></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<user_account>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "用户管理";
+}
+<script>
+    $(function(){ 
+        UserSearch();
+    }); 
+    function UP() { //上一页
+        if ($("#H_page").val() == "1") {
+            $("#B_UP").attr("disabled", true);
+        } else {
+            $("#B_down").attr("disabled", false);
+            $("#H_page").val(($("#H_page").val() * 1) - 1);
+            UserSearch();
+        }
+    }
+
+    function Down() { //下一页
+        if ($("#H_page").val()  == Math.ceil(((@ViewBag.Count * 1) / 15))) {
+            $("#B_down").attr("disabled", true);
+        } else {
+            $("#B_UP").attr("disabled", false);
+            $("#H_page").val(($("#H_page").val() * 1) + 1);
+            UserSearch();
+       
+        }
+
+    }
+</script>
+<div class="padding10">
+
+    <table style="width:100%; table-layout:fixed;" cellpadding="5">
+        <tr>
+            <td>
+                <div class="half-opacity">用户姓名</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="uname" name="user_name">
+                    <input type="hidden" value="1" id="H_page" />
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">手机号码</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="mobnumber" name="mobile_number">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">单位名称</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="uorg" name="user_org">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">所在科室</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="udept" name="user_dept">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">状态</div>
+                <select class="input-control select full-size" id="apprstatus" name="apprstatus">
+                    <option>全部</option>
+                    <option>待审核</option>
+                    <option>已审核</option>
+                    <option>已拒绝</option>
+
+                </select>
+            </td>
+            <td>
+                <div class="half-opacity">注册日期</div>
+                <select class="input-control select full-size" id="regdate">
+                    <option>全部</option>
+                    <option>最近1周</option>
+                    <option>最近1月</option>
+                    <option>最近半年</option>
+                </select>
+            </td>
+            <td style="width:250px;">
+                <div>&nbsp;</div>
+                <button class="button primary" onclick="UserSearch()">
+                    查询
+                </button>
+                <button class="button" onclick="EmptySearch()">
+                    <span class="mif-undo"></span>
+                    重置
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <div style="padding:0 5px;" id="Selector">
+    </div>
+    </div>
+
+

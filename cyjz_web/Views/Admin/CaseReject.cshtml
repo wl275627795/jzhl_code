@@ -1,0 +1,74 @@
+﻿@model MH.Rescue.BIZ.patientcase
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>会诊审核拒绝</title>
+</head>
+<body>
+    <div>
+        <h4>会诊审核拒绝</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                病例标题
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
+            <dt>
+                病例概述
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+
+            <dt>
+                患者性别
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gender)
+            </dd>
+
+            <dt>
+                患者出生日期
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.birthday)
+            </dd>
+
+            <dt>
+                申请人姓名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.owner_name)
+            </dd>
+            <dt>
+                申请日期
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.created_dt)
+            </dd>
+            <dt>
+                会诊申请已拒绝
+            </dt>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("返回会诊列表", "CaseList")
+    </p>
+</body>
+</html>

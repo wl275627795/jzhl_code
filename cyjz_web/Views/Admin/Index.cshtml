@@ -1,0 +1,196 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<article_listview>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "文章管理";
+}
+
+<script>
+    $(document).ready(function() {
+        //  $('#demo-1').fdatepicker();
+        $('select').addClass("input-control select full-size");
+        if (Math.ceil(((@ViewBag.Count * 1) / 15)) > 1) {
+            $("#B_down").attr("disabled", false);
+        }
+        if ($("#H_page").val() > 1) {
+            $("#B_UP").attr("disabled", false);
+        }
+    });
+
+    function UP() { //上一页
+        if ($("#H_page").val() == "1") {
+            $("#B_UP").attr("disabled", true);
+        } else {
+
+            $("#H_page").val(($("#H_page").val() * 1) - 1);
+        }
+    }
+
+    function Down() { //下一页
+        if ($("#H_page").val() == Math.ceil(((@ViewBag.Count * 1) / 15))) {
+            $("#B_down").attr("disabled", true);
+        } else {
+            $("#H_page").val(($("#H_page").val() * 1) + 1);
+
+        }
+
+    }
+    //重置
+    function B_reset() {
+        $("#T_title").val("");
+        $("#T_commit").val("");
+        $("#T_writer").val("");
+        $("#T_Datetime").val("");
+        $("#S_stutes").val("");
+        $("#H_pageType").val("1");
+    }
+
+    function bit() {
+        $("#H_page").val("1");
+    }
+
+</script>
+<ul class="horizontal-menu compact bg-white border-bottom" style="padding-left:15px;">
+    <li>
+        <a href="#" style="border-bottom: solid 4px;" class="bd-lightBlue text-bold">
+            文章列表
+            <span class="tag bg-lightBlue fg-white">待审核：@ViewBag.Count</span>
+        </a>
+    </li>
+    <li><a href="#">文章发布</a></li>
+    <li><a href="#">文章统计</a></li>
+</ul>
+<div class="padding10">
+    @using (Html.BeginForm("SearchIndex", "Admin"))
+    {
+        @Html.Hidden("H_page", "1", new { id = "H_page" });
+        <table style="width: 100%; table-layout: fixed;" cellpadding="5">
+            <tr>
+                <td>
+                    <div class="half-opacity">文章标题</div>
+                    <div class="input-control text full-size">
+                        @Html.TextBox("T_title", "", new { id = "T_title" })
+                    </div>
+                </td>
+                <td>
+                    <div class="half-opacity">提交人</div>
+                    <div class="input-control text full-size">
+                        @Html.TextBox("T_commit", "", new { id = "T_commit" })
+                    </div>
+                </td>
+                <td>
+                    <div class="half-opacity">作者</div>
+                    <div class="input-control text full-size">
+                        @Html.TextBox("T_writer", "", new { id = "T_writer" })
+                    </div>
+                </td>
+                <td>
+                    <div class="half-opacity">文章类型</div>
+                    @{
+                        List<SelectListItem> listBox = new List<SelectListItem>();
+                        listBox.Add(new SelectListItem() { Text = "全部", Value = "00" });
+                        listBox.Add(new SelectListItem() { Text = "学术类", Value = "0" });
+                        listBox.Add(new SelectListItem() { Text = "科普类", Value = "1" });
+                    }
+
+                    @Html.DropDownList("S_stutes", listBox)
+                </td>
+                <td>
+                    <div class="half-opacity">发布日期</div>
+
+                    @{
+                        List<SelectListItem> listBox1 = new List<SelectListItem>();
+                        listBox1.Add(new SelectListItem() { Text = "全部", Value = "00" });
+                        listBox1.Add(new SelectListItem() { Text = "三日", Value = "0" });
+                        listBox1.Add(new SelectListItem() { Text = "一周", Value = "1" });
+                        listBox1.Add(new SelectListItem() { Text = "一月", Value = "2" });
+                    }
+                    @Html.DropDownList("T_Datetime", listBox1)
+                    @* @Html.TextBox("T_Datetime", "", new {id = "demo-1"})*@
+
+                </td>
+                <td style="width: 250px;">
+                    <div>&nbsp;</div>
+                    <input type="submit" onclick="bit()" class="button primary" value="查询" />
+
+                    <button class="button" onclick="B_reset()">
+                        <span class="mif-undo"></span>
+                        重置
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <div style="padding: 0 5px;">
+            <table class="table border bordered bg-white hovered">
+                <tr class="bg-grayLight fg-white">
+                    <td>提交人</td>
+                    <td>提交日期</td>
+                    <td>文章作者</td>
+                    <td>作者单位</td>
+                    <td>文章标题</td>
+                    <td>发布日期</td>
+                    <td>文章类型</td>
+                    <td>审核状态</td>
+                    <td>附件</td>
+                    <td style="width: 240px;">操作</td>
+                </tr>
+                <!--获取文章列表-->
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.apply_user_name</td>
+                        <td>@item.apply_dt.ToString(Const.DateTimeFormat)</td>
+                        <td>@item.author_name</td>
+                        <td>@item.author_org</td>
+                        <td>@item.title</td>
+                        <td>@item.publish_dt.ToString(Const.DateTimeFormat)</td>
+                        @if (@item.type == 0)
+                        {
+                            <td>学术类</td>
+                        }
+                        @if (@item.type == 1)
+                        {
+                            <td>科普类</td>
+                        }
+                        @if (@item.apply_status == 0)
+                        {
+                            <td>未通过</td>
+                        }
+                        @if (@item.apply_status == 1)
+                        {
+                            <td>通过</td>
+                        }
+                        <td class="fg-black">@item.file_path</td>
+                        <td class="align-center">
+                            <a href="/FileUpload/article/@(item.article_id)/@(item.file_path)" class="link external" download>
+                                查看附件
+                            </a> |
+                            @Html.ActionLink("通过", "ArticleConfirm", new { id = item.apply_id }) |
+                            @Html.ActionLink("拒绝", "ArticleReject", new { id = item.apply_id }) |
+                            @Html.ActionLink("查看详情", "ArticleDetail", new { id = item.apply_id }) |
+                            @Html.ActionLink("删除", "ArticleDelete", new { id = item.apply_id })
+
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <table style="width: 100%; table-layout: fixed;">
+                <tr>
+                    <td>
+                        <span>共 @ViewBag.Count 条</span>
+                    </td>
+                    <td class="align-center">
+                        <button class="button mif-previous" disabled="true" id="B_UP" onclick="UP()"></button>
+                        <button class="button mif-next" onclick="Down()" disabled="true" id="B_down"></button>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+                        }
+
+</div>

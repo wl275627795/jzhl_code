@@ -1,0 +1,87 @@
+﻿@using MH.Rescue.BIZ
+
+@{
+    var article_list = ViewBag.Article_List as List<article>;
+    var news_list = ViewBag.News_List as List<news>;
+    //var article_list = ViewBag.Article_List as List<article>;
+    var cds_list = ViewBag.Cds_List as List<decision_support>;
+    if (cds_list == null)
+    { cds_list = new List<decision_support>(); }
+}
+<div data-page="article-search-result" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/article/search" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                查询结果
+            </div>
+            <div class="right">
+                <a href="/article/index" class="link color-white">
+                    <i class="f7-icons">close_round</i>
+                    <span>关闭</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-divider">学术、科普文章 (@article_list.Count)</div>
+                </li>
+                @foreach (var item in article_list)
+                {
+                    <li>
+                        <a href="/article/detail?id=@item.id" class="item-link item-content">
+                            <div class="item-media">
+                                <i class="fa fa-file-text-o color-blue"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">@item.title</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <div class="item-divider">学术动态 (@news_list.Count)</div>
+                </li>
+                @foreach (var item in news_list)
+                {
+                    <li>
+                        <a href="/news/detail?id=@item.id" class="item-link item-content">
+                            <div class="item-media">
+                                <i class="fa fa-newspaper-o color-blue"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">@item.title</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <div class="item-divider">决策指导 (@cds_list.Count)</div>
+                </li>
+                @foreach (var item in cds_list)
+                {
+                    <li>
+                        <a href="/cds/detail?id=@item.id" class="item-link item-content">
+                            <div class="item-media">
+                                <i class="fa fa-book color-blue"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">@item.disease_name</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>

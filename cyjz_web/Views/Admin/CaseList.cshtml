@@ -1,0 +1,105 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<patientcase>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "会诊管理";
+}
+<script>
+    $(function(){
+        CaseSearch();
+
+    });
+    function UP() { //上一页
+        if ($("#H_page").val() == "1") {
+            $("#B_UP").attr("disabled", true);
+        } else {
+            $("#B_down").attr("disabled", false);
+            $("#H_page").val(($("#H_page").val() * 1) - 1);
+            CaseSearch();
+        }
+    }
+
+    function Down() { //下一页
+        if ($("#H_page").val()  == Math.ceil(((@ViewBag.Count * 1) / 15))) {
+            $("#B_down").attr("disabled", true);
+        } else {
+            $("#B_UP").attr("disabled", false);
+            $("#H_page").val(($("#H_page").val() * 1) + 1);
+            CaseSearch();
+
+        }
+    }
+
+</script>
+
+<ul class="horizontal-menu compact bg-white border-bottom" style="padding-left:15px;">
+    <li>
+        <a href="#" style="border-bottom: solid 4px;" class="bd-lightBlue text-bold">
+            会诊列表
+            <span class="tag bg-lightBlue fg-white">待审核：@Model.Count </span>
+        </a>
+    </li>
+    <li><a href="#">会诊发布</a></li>
+    <li><a href="#">会诊统计</a></li>
+</ul>
+<div class="padding10">
+    <table style="width:100%; table-layout:fixed;" cellpadding="5">
+        <tr>
+            <td>
+                <div class="half-opacity">会诊标题</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Case_Title">
+                    <input type="hidden" value="1" id="H_page" />
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">申请人</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Case_Proposer">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">患者性别</div>
+                <select class="input-control select full-size" id="Case_sex" name="Case_sex">
+                    <option>全部</option>
+                    <option>男</option>
+                    <option>女</option>
+                    <option>未知</option>
+                </select>
+            </td>
+            <td>
+                <div class="half-opacity">审核状态</div>
+                <select class="input-control select full-size" id="Case_stutes">
+                    <option>全部</option>
+                    <option>待审核</option>
+                    <option>已审核</option>
+                    <option>已拒绝</option>
+                </select>
+            </td>
+            <td>
+                <div class="half-opacity">申请日期</div>
+                <select class="input-control select full-size" id="Case_Datetime">
+                    <option>全部</option>
+                    <option>最近1周</option>
+                    <option>最近1月</option>
+                    <option>最近半年</option>
+                </select>
+            </td>
+            <td style="width:250px;">
+                <div>&nbsp;</div>
+                <button class="button primary" onclick="CaseSearch()">
+                    <span class="mif-search"></span>
+                    查询
+                </button>
+                <button class="button">
+                    <span class="mif-undo"></span>
+                    重置
+                </button>
+            </td>
+        </tr>
+    </table>
+    <div style="padding:0 5px;" id="Case_Selector">
+    </div>
+</div>

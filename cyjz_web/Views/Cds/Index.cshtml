@@ -1,0 +1,20 @@
+﻿@using MH.Rescue.BIZ
+@model List<decision_support>
+
+<div class="list-block no-margin-top-2">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="/cds/detail?id=@(item.id)" class="item-link item-content">
+                    <div class="item-media">
+                        <i class="f7-icons color-blue">book</i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">@item.disease_name</div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

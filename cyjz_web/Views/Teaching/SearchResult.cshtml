@@ -1,0 +1,68 @@
+﻿@using MH.Rescue.BIZ
+
+@{
+    var livs = ViewBag.LivList as List<teaching_liv>;
+    var vods = ViewBag.VodList as List<teaching_vod>;
+}
+<div data-page="teaching-search-result" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/teaching/search" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                查询结果
+            </div>
+            <div class="right">
+                <a href="/teaching/index" class="link color-white">
+                    <i class="f7-icons">close_round</i>
+                    <span>关闭</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-divider">教学直播 (@livs.Count)</div>
+                </li>
+                @foreach (var item in livs)
+                {
+                    <li>
+                        <a href="/teaching/livdetail?id=@item.id" class="item-link item-content">
+                            <div class="item-media">
+                                <i class="f7-icons color-blue">videocam_round</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">@item.title</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+
+                <li>
+                    <div class="item-divider">视频回放 (@vods.Count)</div>
+                </li>
+                @foreach (var item in vods)
+                {
+                    <li>
+                        <a href="/teaching/voddetail?id=@item.id" class="item-link item-content">
+                            <div class="item-media">
+                                <i class="f7-icons color-blue">play_round</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">@item.title</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,205 @@
+﻿@using MH.Rescue.BIZ
+@model news
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var collection = ViewBag.Collection as user_collect_record;
+    var images_json = (string)ViewBag.ImagesJson;
+}
+<div data-page="news-detail" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                @if (Request.QueryString["fromfav"] == "true")
+                    {
+                    <a href="/account/myfav" class="back link icon-only color-white" data-force="true">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                    }
+                    else
+                    {
+                    <a href="/news/index" class="back link icon-only color-white">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                    }
+            </div>
+            <div class="center">
+                学术动态详情
+            </div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        @if (user == null)
+            {
+            <div class="toolbar-inner" onclick="ArticleDetailNeedSignin()">
+                <a href="#" class="link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">star</i>
+                    <span>添加收藏</span>
+                </a>
+            </div>
+            }
+            else
+            {
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                @if (collection == null)
+                    {
+                    <a href="#" class="link" onclick="AddToCollection(@(user.id), @((int)ContentType.新闻), @Model.id)">
+                        <i class="f7-icons">star</i>
+                        <span>添加收藏</span>
+                    </a>
+                    }
+                    else
+                    {
+                    <a href="#" class="link" onclick="RemoveCollection(@(user.id), @((int)ContentType.新闻), @Model.id)">
+                        <i class="f7-icons color-orange">star_fill</i>
+                        <span>取消收藏</span>
+                    </a>
+                    }
+            </div>
+            }
+    </div>
+
+    <div class="page-content hide-bars-on-scroll">
+
+        @if (Model.news_image.Count > 0) // 有图片，默认显示第一张
+            {
+                var first = Model.news_image.OrderBy(t => t.sorting_no).First();
+                var img_url = "/FileUpload/news/" + Model.id.ToString() + "/" + first.cmn_image.thumbnail;
+            <div>
+                <a href="#" class="link item-content" onclick="ShowNewsImages(@images_json)">
+                    <div class="item-inner" style="position:relative; background-image:url('@img_url'); height:200px; background-size:cover;">
+                        <div style="position:absolute; display:inline; font-size:20px; z-index:1000; bottom:10px; left:0; opacity:0.5; background-color:#000; padding:10px;">
+                            @Model.title
+                        </div>
+                        <div style="position:absolute; display:inline;font-size:20px; z-index:1000; bottom:10px; left:0; padding:10px;" class="color-white">
+                            @Model.title
+                        </div>
+                    </div>
+                </a>
+            </div>
+            }
+
+        <div class="list-block media-list no-margin-top-2">
+            <ul>
+                @if (Model.news_image.Count == 0) // 无新闻封面图片，显示标题
+                    {
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner detail-title">
+                                @Model.title
+                            </div>
+                        </div>
+                    </li>
+                    }
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row" style="opacity:0.5;">
+                                @Model.post_dt.ToShortDateString() · @Model.author_org · @Model.author_name
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            @Model.contents
+                        </div>
+                    </div>
+                </li>
+                @if (Model.news_image.Count > 1) // 多于一张图片
+                    {
+                    <li>
+                        <a href="#" class="item-link item-content" onclick="ShowNewsImages(@images_json)">
+                            <div class="item-media">
+                                <i class="f7-icons color-blue">images</i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">查看全部@(Model.news_image.Count)张图片</div>
+                            </div>
+                        </a>
+                    </li>
+                    }
+            </ul>
+        </div>
+
+        <div class="content-block-title">添加评论</div>
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <textarea id="txtNewsComments" placeholder="请输入评论内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            @if (user == null)
+            {
+                <div style="padding:15px 15px 45px 15px;">
+                    <a href="#" class="open-login-screen">登录</a>
+                    后可以发表评论
+                </div>
+            }
+            else
+            {
+                <div class="row" style="padding:15px 15px 45px 15px;">
+                    <div class="col-50">
+                        <a href="#" class="button active button-fill color-blue" onclick="SubmitNewsComments(@Model.id)">发布评论</a>
+                    </div>
+                    <div class="col-50"></div>
+                </div>
+            }
+        </div>
+
+
+        @if (Model.news_comments.Count > 0)
+            {
+            <div class="content-block-title">@(Model.news_comments.Count)条评论</div>
+            <div class="list-block media-list">
+                <ul>
+                    @foreach (var item in Model.news_comments)
+                        {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><img src="~/Contents/image/avatar/default/@(item.user_account.avatar)" width="44"></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">@item.user_name</div>
+                                        <div class="item-after">@item.created_dt.ToString("yyyy/MM/dd HH:mm")</div>
+                                    </div>
+                                    <div class="">@item.comments</div>
+                                    @if (user != null && user.id == item.user_id)
+                                        {
+                                        <div style="text-align:right; padding-top:5px;">
+                                            <a href="#" class="color-red" onclick="DeleteNewsComments(@Model.id, @item.id)">
+                                                <span>删除评论</span>
+                                            </a>
+                                        </div>
+                                        }
+                                </div>
+                            </div>
+                        </li>
+                        }
+                </ul>
+            </div>
+            }
+
+        
+
+    </div>
+
+</div>

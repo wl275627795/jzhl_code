@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F0F4EF9-B543-4116-933D-CF09143ED0AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MH.Rescue.BIZ</RootNamespace>
+    <AssemblyName>MH.Rescue.BIZ</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountMgr.cs" />
+    <Compile Include="AdminMgr.cs" />
+    <Compile Include="article.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="article_apply.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="article_comments.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="article_like.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="article_listview.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="news_imageview.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="patientcase_imageview.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgr.cs" />
+    <Compile Include="CdsMgr.cs" />
+    <Compile Include="cmn_image.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="consultation.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="consultation_conclusion.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="consultation_resource.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="decision_support.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_common.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_common_item.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_county.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_hospital.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_live_channel.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dic_province.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="emr_image.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="emr_index.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="emr_patient.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="emr_type.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="message.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="news.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsMgr.cs" />
+    <Compile Include="ArticleMgr.cs" />
+    <Compile Include="PatientCaseMgr.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="KioskMgr.cs" />
+    <Compile Include="news_comments.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="news_image.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="patientcase.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="patientcase_conclusion.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="patientcase_image.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RescueDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RescueDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RescueDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RescueDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RescueDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="sms_message_queue.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TeachingVodMgr.cs" />
+    <Compile Include="TeachingLivMgr.cs" />
+    <Compile Include="teaching_apply.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="teaching_category.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="teaching_comments.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="teaching_like.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="teaching_liv.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="teaching_vod.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_account.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_collect_record.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_download_record.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_im.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_share_record.cs">
+      <DependentUpon>RescueDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="RescueDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RescueDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="RescueDB.edmx.diagram">
+      <DependentUpon>RescueDB.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RescueDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RescueDB.edmx</DependentUpon>
+      <LastGenOutput>RescueDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="RescueDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RescueDB.edmx</DependentUpon>
+      <LastGenOutput>RescueDB.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CMN\CMN.csproj">
+      <Project>{30d781be-0659-4879-973c-74cf83de10f1}</Project>
+      <Name>CMN</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

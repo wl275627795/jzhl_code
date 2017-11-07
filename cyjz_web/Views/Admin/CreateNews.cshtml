@@ -1,0 +1,32 @@
+﻿@model MH.Rescue.BIZ.news
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发布新闻</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("CreateNews", "Admin", FormMethod.Post))
+    {
+        <p>新闻标题: @Html.TextBoxFor(x => x.title) </p>
+        <p>新闻作者: @Html.TextBoxFor(x => x.author_name) </p>
+        <p>作者单位: @Html.TextBoxFor(x => x.author_org) </p>
+        <p>主要内容: @Html.TextAreaFor(x => x.contents) </p>
+
+        <p>
+            <input type="submit" id="btnSubmit" value="确认提交" />
+        </p>
+    }
+
+    <div>
+        @Html.ActionLink("返回新闻列表", "NewsList")
+    </div>
+</body>
+</html>

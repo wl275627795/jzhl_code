@@ -1,0 +1,59 @@
+﻿@using MH.Rescue.BIZ
+@model List<decision_support>
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+}
+<div data-page="my-cds" class="page navbar-fixed no-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/account/index" class="back link icon-only color-white" data-force="true">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                常用指导
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        @if (Model == null || Model.Count == 0)
+            {
+            <div style="padding:150px 20px; text-align:center;">
+                <i class="f7-icons" style="font-size:120px; opacity:0.2;">book_fill</i>
+                <div style="padding:15px;">
+                    目前没有收藏的决策指导
+                </div>
+            </div>
+            }
+            else
+            {
+            <div class="list-block no-margin-top">
+                <ul>
+                    @foreach (var item in Model)
+                        {
+                        <li class="swipeout">
+                            <a href="/cds/detail?fromfav=true&id=@item.id" class="item-link item-content swipeout-content">
+                                <div class="item-media">
+                                    <i class="f7-icons color-blue">book</i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title">@item.disease_name</div>
+                                </div>
+                            </a>
+                            <div class="swipeout-actions-right">
+                                <a href="#" class="bg-red color-white" onclick="RemoveCollection(@(user.id), @((int)ContentType.指导), @item.id)">移出常用</a>
+                            </div>
+                        </li>
+                        }
+                </ul>
+            </div>
+            }
+    </div>
+
+</div>

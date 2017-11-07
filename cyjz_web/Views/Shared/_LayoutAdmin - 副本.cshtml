@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Contents/colors.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-colors.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-icons.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-responsive.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-schemes.css" rel="stylesheet" />
+    <link href="~/Contents/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Contents/admin-mainstyle.css" rel="stylesheet" />
+    <script src="~/Contents/jquery/jquery-3.1.0.min.js"></script>
+    <script src="~/Contents/metroui/js/metro.js"></script>
+    <script src="~/Contents/admin-mainjs.js"></script>
+</head>
+<body>
+    <div class="app-bar fixed-top bg-main">
+        <a class="app-bar-element" href="#">
+            <span class="mif-medkit mif-2x"></span>
+            <b>急诊互联管理系统</b>
+        </a>
+        <span class="app-bar-divider"></span>
+        @{
+            var url = Request.RawUrl.ToLower();
+            var menus = new string[9];
+            if (url.Contains("userlist") == true)
+                { menus[0] = "bg-lightBlue"; }
+            if (url.Contains("index") == true || url.Contains("articlenew") == true || url.Contains("article") == true)
+                { menus[1] = "bg-lightBlue"; }
+            if (url.Contains("caselist") == true)
+                { menus[2] = "bg-lightBlue"; }
+            if (url.Contains("livelist") == true)
+                { menus[3] = "bg-lightBlue"; }
+            if (url.Contains("vodlist") == true)
+                { menus[4] = "bg-lightBlue"; }
+            if (url.Contains("newslist") == true)
+                { menus[5] = "bg-lightBlue"; }
+            if (url.Contains("elitecaselist") == true)
+                { menus[6] = "bg-lightBlue"; }
+            if (url.Contains("cdslist") == true)
+                { menus[7] = "bg-lightBlue"; }
+            if (url.Contains("syssetup") == true)
+                { menus[8] = "bg-lightBlue"; }
+        }
+        <ul class="app-bar-menu">
+            <li class="@menus[0]">
+                <a href="/admin/userlist">
+                    <span class="mif-users"></span>
+                    用户
+                </a>
+            </li>
+            <li class="@menus[1]">
+                <a href="/admin/index">
+                    <span class="mif-file-text"></span>
+                    文章
+                </a>
+            </li>
+            <li class="@menus[2]">
+                <a href="/admin/caselist">
+                    <span class="mif-earth"></span>
+                    会诊
+                </a>
+            </li>
+            <li class="@menus[3]">
+                <a href="/admin/livelist">
+                    <span class="mif-video-camera"></span>
+                    直播
+                </a>
+            </li>
+            <li class="@menus[4]">
+                <a href="/admin/vodlist">
+                    <span class="mif-play"></span>
+                    教学回放
+                </a>
+            </li>
+            <li  class="@menus[5]">
+                <a href="/admin/newslist">
+                    <span class="mif-paper-plane"></span>
+                    新闻
+                </a>
+            </li>
+            <li class="@menus[6]">
+                <a href="/admin/elitecaselist">
+                    <span class="mif-folder"></span>
+                    典型病例
+                </a>
+            </li>
+            <li class="@menus[7]">
+                <a href="/admin/cdslist">
+                    <span class="mif-alarm"></span>
+                    决策指导
+                </a>
+            </li>
+            <li class="@menus[8]">
+                <a href="/admin/syssetup">
+                    <span class="mif-cog"></span>
+                    系统设置
+                </a>
+            </li>
+        </ul>
+        <ul class="app-bar-menu place-right">
+            <li>
+                <a href="#" class="dropdown-toggle">
+                    <span class="mif-user"></span>
+                    管理员
+                </a>
+                <ul class="d-menu place-right" data-role="dropdown">
+                    @*<li><a href="">个人信息</a></li>
+                        <li class="divider"></li>*@
+                    <li>
+                        <a href="/admin/signin">
+                            <span class="icon fg-dark mif-exit"></span>
+                            退出登录
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="main-content" style="padding-top: 3.125rem; height:100%;">
+        @RenderBody()
+    </div>
+</body>
+</html>

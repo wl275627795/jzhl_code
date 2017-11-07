@@ -1,0 +1,39 @@
+﻿@model MH.Rescue.BIZ.teaching_liv
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发布直播课程</title>
+</head>
+<body>
+    @using (Html.BeginForm("CreateLive", "Admin", FormMethod.Post))
+    {
+        <p>课程名称: @Html.TextBoxFor(x => x.title) </p>
+        <p>主讲人姓名: @Html.TextBoxFor(x => x.teacher_name) </p>
+        <p>主讲人单位: @Html.TextBoxFor(x => x.teacher_org) </p>
+        <p>主讲人科室: @Html.TextBoxFor(x => x.teacher_dept) </p>
+        <p>主讲人职称: @Html.TextBoxFor(x => x.teacher_title) </p>
+        <p>课程介绍: @Html.TextAreaFor(x => x.description) </p>
+        <p>直播开始时间: @Html.TextBoxFor(x => x.start_dt) (格式：yyyy-mm-dd hh:mm:ss)</p>
+        <p>直播结束时间: @Html.TextBoxFor(x => x.end_dt) (格式：yyyy-mm-dd hh:mm:ss)</p>
+        <p>最大报名数: @Html.TextBoxFor(x => x.apply_max) </p>
+        <p>直播频道: @Html.TextBoxFor(x => x.channel_id)  </p>
+
+
+        <p>
+            <input type="submit" id="btnSubmit" value="确认提交" />
+        </p>
+    }
+
+    
+    <div>
+        @Html.ActionLink("返回直播课程列表", "LiveList")
+    </div>
+</body>
+</html>

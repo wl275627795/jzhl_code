@@ -1,0 +1,216 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model article
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var collection = ViewBag.Collection as user_collect_record;
+}
+<div data-page="article-detail" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                @if (Request.QueryString["fromfav"] == "true")
+                {
+                    <a href="/account/myfav" class="back link icon-only color-white" data-force="true">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="/article/index" class="back link icon-only color-white">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+            </div>
+            <div class="center">
+                学术文章详情
+            </div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        @if (user == null)
+        {
+            <div class="toolbar-inner" onclick="ArticleDetailNeedSignin()">
+                <a href="#" class="link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">download</i>
+                    <span>下载</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">star</i>
+                    <span>收藏</span>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                @if (string.IsNullOrEmpty(Model.file_path) == false)
+                {
+                    // 在浏览器里打开（下载）文件，如图像或PDF
+                    <a href="http://182.92.116.203:80/FileUpload/article/@(Model.id)/@(Model.file_path)" onclick="awakeOtherBrowser('http://182.92.116.203:80/FileUpload/article/@(Model.id)/@(Model.file_path)')" class="link external" download >
+                        <i class="f7-icons">download</i>
+                        <span>下载</span>
+                    </a>
+                }
+                @if (collection == null)
+                {
+                    <a href="#" class="link" onclick="AddToCollection(@(user.id), @((int)ContentType.文章), @Model.id)">
+                        <i class="f7-icons">star</i>
+                        <span>添加收藏</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" class="link" onclick="RemoveCollection(@(user.id), @((int)ContentType.文章), @Model.id)">
+                        <i class="f7-icons color-orange">star_fill</i>
+                        <span>取消收藏</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="page-content hide-bars-on-scroll">
+        <div class="list-block media-list no-margin-top-2">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="detail-title">@Model.title</div>
+                            <div style="opacity:0.5;">
+                                @Model.author_name
+                                @(string.IsNullOrEmpty(Model.author_org) == false ? " · " : "")
+                                @Model.author_org
+                                <br />
+                                @Model.publish_dt.ToString(Const.DateTimeFormat)
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div style="opacity:0.5;">关键字</div>
+                            </div>
+                            <div class="item-subtitle2">@Model.keyword</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div style="opacity:0.5;">摘要</div>
+                            </div>
+                            <div class="item-subtitle2">@Model.summary</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <span style="opacity:0.5;">
+                                    附件
+                                </span>
+                                <div class="item-after">
+                                    @(string.IsNullOrEmpty(Model.file_path) ? "" : CommonFunctions.CountSize(Model.file_size.Value))
+                                </div>
+                            </div>
+                            @if (string.IsNullOrEmpty(Model.file_path) == true) // 无附件
+                                {
+                            <div style="opacity:0.5;">暂无附件</div>
+                                }
+                                else
+                                {
+                            <div>《@(Model.file_path)》</div>
+                                }
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-block-title">添加评论</div>
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <textarea id="txtArticleComments" placeholder="请输入评论内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            @if (user == null)
+            {
+                <div style="padding:15px 15px 45px 15px;">
+                    <a href="#" class="open-login-screen">登录</a>
+                    后可以发表评论
+                </div>
+            }
+            else
+            {
+                <div class="row" style="padding:15px 15px 45px 15px;">
+                    <div class="col-50">
+                        <a href="#" class="button button-fill color-blue active" onclick="SubmitArticleComments(@Model.id)">发布评论</a>
+                    </div>
+                    <div class="col-50"></div>
+                </div>
+            }
+        </div>
+
+
+
+        @if (Model.article_comments.Count > 0)
+            {
+        <div class="content-block-title">@(Model.article_comments.Count)条评论</div>
+        <div class="list-block media-list">
+            <ul>
+                @foreach (var item in Model.article_comments)
+                        {
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><img src="~/Contents/image/avatar/default/@(item.user_account.avatar)" width="44"></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">@item.user_name</div>
+                                <div class="item-after">@item.created_dt.ToString("yyyy/MM/dd HH:mm")</div>
+                            </div>
+                            <div class="">@item.comments</div>
+                            @if (user != null && user.id == item.user_id)
+                                        {
+                                <div style="text-align:right; padding-top:5px;">
+                                    <a href="#" class="color-red" onclick="DeleteArticleComments(@Model.id, @item.id)">
+                                        <span>删除评论</span>
+                                    </a>
+                                </div>
+                                        }
+                        </div>
+                    </div>
+                </li>
+                        }
+            </ul>
+        </div>
+            }
+
+
+
+    </div>
+
+</div>

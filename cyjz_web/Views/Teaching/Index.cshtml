@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>急诊互联 @ViewBag.Title</title>
+    <link href="~/Contents/framework7/css/framework7-icons.css" rel="stylesheet" />
+
+    @{
+        var is_ios = Request.QueryString["android"] != "true"; // 根据平台加载不同的样式
+
+        if (is_ios == true)
+        {
+            <link href="~/Contents/framework7/css/framework7.ios.css" rel="stylesheet" />
+            <link href="~/Contents/framework7/css/framework7.ios.colors.css" rel="stylesheet" />
+        }
+        else
+        {
+            <link href="~/Contents/framework7/css/framework7.material.css" rel="stylesheet" />
+            <link href="~/Contents/framework7/css/framework7.material.colors.css" rel="stylesheet" />
+        }
+    }
+
+    <link href="~/Contents/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Contents/app-mainstyle.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="statusbar-overlay"></div>
+
+    <div class="views tabs">
+        <div id="view-1" class="view view-main tab active">
+            <div class="pages">
+                <div data-page="teaching-index" class="page navbar-fixed toolbar-fixed no-tabbar">
+                    <div class="navbar bg-blue color-white">
+                        <div class="navbar-inner">
+                            <div class="left">
+                                <a href="/teaching/search" class="link icon-only color-white">
+                                    <i class="f7-icons">search</i>
+                                </a>
+                            </div>
+                            <div class="center">
+                                教学列表
+                            </div>
+                            <div class="right">
+                            </div>
+                            <div class="subnavbar sliding ios-only">
+                                <div class="buttons-row">
+                                    <a href="#tab1" class="button tab-link active">即将开始</a>
+                                    <a href="#tab2" class="button tab-link">正在直播</a>
+                                    <a href="#tab3" class="button tab-link">视频回放</a>
+                                    <a href="#tab4" class="button tab-link">专家查房</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="toolbar tabbar android-only">
+                        <div class="toolbar-inner">
+                            <a href="#tab1" class="tab-link active">即将开始</a>
+                            <a href="#tab2" class="tab-link">正在直播</a>
+                            <a href="#tab3" class="tab-link">视频回放</a>
+                            <a href="#tab4" class="tab-link">专家查房</a>
+                        </div>
+
+                    </div>
+
+                    <div id="ptrTeaching" class="page-content with-subnavbar pull-to-refresh-content hide-bars-on-scroll">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div id="teaching_list" class="tabs">
+                            @Html.Action("TeachingList", "Teaching")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="view-2" class="view view-2 tab">
+            <div class="pages">
+                @Html.Action("Index", "Article")
+            </div>
+        </div>
+        <div id="view-3" class="view view-3 tab">
+            <div class="pages">
+                @Html.Action("Index", "PatientCase")
+            </div>
+        </div>
+        <div id="view-4" class="view view-4 tab">
+            <div class="pages">
+                @Html.Action("Index", "kiosk")
+            </div>
+        </div>
+        <div id="view-5" class="view view-5 tab">
+            <div class="pages">
+                @Html.Action("Index", "Account")
+            </div>
+        </div>
+
+        <!-- Bottom Tabbar-->
+        <div id="tabbar-main" class="toolbar tabbar tabbar-labels toolbar-bottom">
+            <div class="toolbar-inner">
+                <a href="#view-1" class="tab-link active">
+                    <i class="icon f7-icons active">
+                        videocam_round_fill
+                        @*<span class="badge bg-red">2</span>*@
+                    </i>
+                    <span class="tabbar-label">教学</span>
+                </a>
+                <a href="#view-2" class="tab-link">
+                    <i class="icon f7-icons">book_fill</i>
+                    <span class="tabbar-label">学术</span>
+                </a>
+                <a href="#view-3" class="tab-link">
+                    <i class="icon f7-icons">world_fill</i>
+                    <span class="tabbar-label">会诊</span>
+                </a>
+                <a href="#view-4" class="tab-link">
+                    <i class="icon f7-icons">briefcase_fill</i>
+                    <span class="tabbar-label">自助问诊</span>
+                </a>
+                <a href="#view-5" class="tab-link" onclick="ReloadMyAccount()">
+                    <i class="icon f7-icons">person_fill</i>
+                    <span class="tabbar-label">我的</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("_Signin")
+
+    <script src="~/Contents/framework7/js/framework7.js"></script>
+    <script src="~/Contents/app-main-ios.js"></script>
+    <script src="~/Contents/app-account.js"></script>
+    <script src="~/Contents/app-teaching.js"></script>
+    <script src="~/Contents/app-article.js"></script>
+    <script src="~/Contents/app-news.js"></script>
+    <script src="~/Contents/app-patientcase.js"></script>
+    <script src="~/Contents/js_sdk20170302.js"></script>
+
+    <!--MOB SHARE BEGIN-->
+    <script>
+        mobShare.config( {
+            appkey: '1e8f6959e1a08', // appkey
+             params: {
+                 url: window.location.href,  // 分享链接
+                 title: '来自【急诊互联】www.mee120.com', // 分享标题
+            }
+        } );
+    </script>
+
+    <div class="-mob-share-ui" style="display: none">
+        <ul class="-mob-share-list">
+            <li class="-mob-share-weibo"><p>新浪微博</p></li>
+            <li class="-mob-share-tencentweibo"><p>腾讯微博</p></li>
+            <li class="-mob-share-qzone"><p>QQ空间</p></li>
+            <li class="-mob-share-qq"><p>QQ好友</p></li>
+            <li class="-mob-share-renren"><p>人人网</p></li>
+            <li class="-mob-share-weixin"><p>微信</p></li>
+        </ul>
+    </div>
+    <div class="-mob-share-ui-bg"></div>
+    <script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=1e8f6959e1a08"></script>
+
+    <!--MOB SHARE END-->
+
+    <div class="popover popover-menu-share modal-in" style="width:200px;">
+        <div class="popover-angle on-bottom"></div>
+        <div class="popover-inner">
+            <div class="list-block">
+                <ul>
+                    <li class="-mob-share-weibo"><a href="#" class="list-button item-link">新浪微博</a></li>
+                    <li class="-mob-share-weixin"><a href="#" class="list-button item-link">微信好友</a></li>
+                    <li class="-mob-share-weixin"><a href="#" class="list-button item-link">微信朋友圈</a></li>
+                    <li class="-mob-share-qq"><a href="#" class="list-button item-link" >QQ好友</a></li>
+                    <li class="-mob-share-qzone"><a href="#" class="list-button item-link">QQ空间</a></li>
+                    <li><a href="mailto:?&subject=内容分享自急诊互联App&body=急诊互联 www.mee120.com " class="list-button item-link external">邮件</a></li>
+                    <li><a href="sms:?&body=内容分享自急诊互联App www.mee120.com &body=急诊互联  www.mee120.com " class="list-button item-link external">短信</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

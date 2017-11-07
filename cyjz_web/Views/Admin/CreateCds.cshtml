@@ -1,0 +1,36 @@
+﻿@model MH.Rescue.BIZ.decision_support
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发布决策指导</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("CreateCds", "Admin", FormMethod.Post))
+    {
+        <p>疾病名称: @Html.TextBoxFor( x => x.disease_name ) </p>
+        <p>疾病部位: @Html.TextBoxFor( x => x.disease_position) </p>
+        <p>患者症状: @Html.TextAreaFor( x => x.symptoms) </p>
+        <p>患者体征: @Html.TextAreaFor( x => x.signs) </p>
+        <p>影像提示: @Html.TextAreaFor( x => x.image_indication) </p>
+        <p>检验提示: @Html.TextAreaFor( x => x.lab_indication) </p>
+        <p>诊断要点: @Html.TextAreaFor( x => x.key_point_diagnosis) </p>
+        <p>急诊处置: @Html.TextAreaFor( x => x.emergency_treatment) </p>
+
+        <p>
+            <input type ="submit" id="btnSubmit" value="确认提交" />
+        </p>
+     }
+    
+    <div>
+        @Html.ActionLink("返回决策指导列表", "CdsList")
+    </div>
+</body>
+</html>

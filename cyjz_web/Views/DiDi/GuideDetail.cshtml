@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "急救指南明细";
+}
+
+
+<div class="pages">
+
+    <div data-page="guide-detail" class="page navbar-fixed toolbar-fixed no-tabbar page-on-center">
+
+        <div class="navbar bg-blue color-white">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="/didi/index" class="back link icon-only color-white">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                </div>
+                <div class="center">
+                    @Request.QueryString["title"]
+                </div>
+                <div class="right">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+
+            <div class="content-block">
+                <div class="content-block-title">基本知识</div>
+                <div class="content-block-inner">
+                    海姆立克急救法，利用冲击腹部——膈肌下软组织，被突然的冲击，产生向上的压力，压迫两肺下部，从而驱使肺部残留空气形成一股气流。这股带有冲击性、方向性的长驱直入于气管的气流，就能将堵住气管、喉部的食物硬块等异物驱除，使人获救。
+                </div>
+
+                <div class="content-block-title">急救方法图解</div>
+                <div class="content-block-inner">
+                    <img src="~/Contents/image/海姆立克01.jpg" style="width:100%;" />
+                </div>
+
+                <div class="content-block-title">
+                    教学视频
+                    <span class="badge">05:32 · 12.7MB</span>
+                </div>
+                <div class="content-block-inner" style="position:relative; margin-bottom:80px;">
+                    <img src="~/Contents/image/海姆立克02.jpg" style="width:100%;" />
+                    <div style="position:absolute; top:50%; left:50%; width:64px; height:64px; margin-left:-32px; margin-top:-32px;">
+                        <i class="f7-icons color-blue" style="font-size:64px;">play_round_fill</i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward_fill</i>
+                    <span>分享</span>
+                </a>
+                @*<a href="#" class="link color-red btn-askhelp">
+                    <i class="f7-icons color-red">heart_fill</i>
+                    <span>紧急求助</span>
+                </a>*@
+
+            </div>
+        </div>
+
+    </div>
+</div>

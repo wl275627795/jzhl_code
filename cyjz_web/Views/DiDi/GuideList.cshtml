@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>黄金急救 @ViewBag.Title</title>
+    <link href="~/Contents/framework7/css/framework7-icons.css" rel="stylesheet" />
+    <link href="~/Contents/framework7/css/framework7.ios.css" rel="stylesheet" />
+    <link href="~/Contents/framework7/css/framework7.ios.colors.css" rel="stylesheet" />
+    <link href="~/Contents/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Contents/app-mainstyle.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="pages">
+        <div data-page="guide-list" class="page navbar-fixed toolbar-fixed">
+
+            <div class="navbar bg-blue color-white">
+                <div class="navbar-inner">
+                    <div class="left">
+                    </div>
+                    <div class="center">
+                        急救知识
+                    </div>
+                    <div class="right">
+                        <a href="#" class="link color-white" onclick="ScanGuideQR()">
+                            <i class="f7-icons">scan</i>
+                           
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div data-page="searchbar" class="page page-on-center hide-bars-on-scroll">
+                
+                <div class="searchbar-overlay"></div>
+                <div class="page-content">
+                    <div class="list-block searchbar-not-found">
+                    </div>
+                    <div class="list-block search-here searchbar-found">
+                        <div class="list-block">
+                            <ul>
+                                @{
+                                    var myfav = new string[] { "中暑", "溺水", "气管异物", "烧伤" };
+                                    var all = new string[] { "车祸伤", "跌倒、高坠伤", "蛇、虫、狗等动物咬伤", "煤气中毒", "农药中毒", "胸痛", "放射伤", "休克昏迷" };
+
+                                    <li>
+                                        <div class="item-divider">
+                                            常用急救指南
+                                            <span class="badge">4</span>
+                                        </div>
+                                    </li>
+
+                                    foreach (var item in myfav)
+                                    {
+                                        <li>
+                                            <a href="/didi/guidedetail?title=@(item)" class="item-link item-content">
+                                                <div class="item-media"><i class="f7-icons color-orange">star_fill</i></div>
+                                                <div class="item-inner">
+                                                    <div class="item-title">@(item)</div>
+                                                    <div class="item-after"></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <div class="item-divider">
+                                            其它指南
+                                        </div>
+                                    </li>
+
+                                    foreach (var item in all)
+                                    {
+                                        <li>
+                                            <a href="/didi/guidedetail?id=@(item)" class="item-link item-content">
+                                                <div class="item-media"><i class="f7-icons color-blue">star</i></div>
+                                                <div class="item-inner">
+                                                    <div class="item-title">@(item)</div>
+                                                    <div class="item-after"></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

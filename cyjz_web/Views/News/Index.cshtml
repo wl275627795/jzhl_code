@@ -1,0 +1,36 @@
+﻿@using MH.Rescue.BIZ
+@model List<news>
+
+<div class="list-block media-list no-margin-top-2">
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <a href="/news/detail?id=@(item.id)" class="item-link item-content">
+                    <div class="item-media">
+                        @if (item.news_image.Count > 0) // 有图片，显示第一幅图片的缩略图
+                        {
+                            var first = item.news_image.OrderBy(t => t.sorting_no).First();
+                            var img_url = "/FileUpload/news/" + item.id.ToString() + "/" + first.cmn_image.thumbnail;
+                            <div style="background-image:url('@img_url'); background-size:cover; width:80px; height:80px;">
+                            </div>
+                        }
+                        else // 无图片，显示默认
+                        {
+                            <div style="width:80px; height:80px; background-color:#ddd; text-align:center; vertical-align:middle;">
+                                <span class="fa fa-newspaper-o color-white" style="font-size:45px; padding-top:20px;"></span>
+                            </div>
+                        }
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div class="item-title">@item.title</div>
+                        </div>
+                        <div class="item-subtitle">@item.post_dt.ToShortDateString() · @item.author_org · @item.author_name</div>
+                        <div class="item-text">@item.contents</div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

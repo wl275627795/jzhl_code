@@ -1,0 +1,183 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model patientcase
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var collection = ViewBag.Collection as user_collect_record;
+    var images_json = (string)ViewBag.ImagesJson;
+    var tab = Request.QueryString["tab"]; // 来自于哪个tab页
+}
+<div data-page="patientcase-detail" class="page navbar-fixed toolbar-fixed no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                @if (Request.QueryString["fromfav"] == "true")
+                {
+                    <a href="/account/mypatientcase" class="back link icon-only color-white" data-force="true">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+                else
+                {
+                    var force_back = "false"; // search result页面进入的，普通返回；否则刷新页面（因为评论数可能会变化）
+                    <a href="/elitecase/index" class="back link icon-only color-white" data-force="@force_back"> 
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+            </div>
+            <div class="center">
+                疑难病例详情
+            </div>
+            <div class="right">
+
+            </div>
+            <div class="subnavbar sliding ios-only">
+                <div class="buttons-row">
+                    <a href="#tabcase1" class="button tab-link active">申请信息</a>
+                    <a href="#tabcase2" class="button tab-link">病例信息</a>
+                    <a href="#tabcase3" class="button tab-link">附件 (@(Model.patientcase_image.Count))</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar tabbar android-only">
+        <div class="toolbar-inner">
+            <a href="#tabcase1" class="tab-link active">申请信息</a>
+            <a href="#tabcase2" class="tab-link">病例信息</a>
+            <a href="#tabcase3" class="tab-link">附件 (@(Model.patientcase_image.Count))</a>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        @if (user == null)
+            {
+            <div class="toolbar-inner" onclick="ArticleDetailNeedSignin()">
+                <a href="#" class="link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">star</i>
+                    <span>添加收藏</span>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                @if (collection == null)
+                {
+                    <a href="#" class="link" onclick="AddToCollection(@(user.id), @((int)ContentType.病例), @Model.id)">
+                        <i class="f7-icons">star</i>
+                        <span>添加收藏</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" class="link" onclick="RemoveCollection(@(user.id), @((int)ContentType.病例), @Model.id)">
+                        <i class="f7-icons color-orange">star_fill</i>
+                        <span>取消收藏</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="page-content with-subnavbar">
+
+        <div class="tabs">
+            <div id="tabcase1" class="tab active">
+                @{
+                    var list = new Dictionary<string, string>();
+                    list.Add("标题", Model.title);
+                    list.Add("提交人", Model.owner.name + " " + Model.owner.title + " · " + Model.owner.hospital_name + " " + Model.owner.department_name);
+                    list.Add("提交时间", Model.created_dt.ToString(Const.DateTimeFormat));
+                    list.Add("描述", Model.description);
+                    list.Add("状态", Model.status.ToString());
+                }
+                @Html.Partial("ContentList", list)
+            </div>
+            <div id="tabcase2" class="tab">
+                @{
+                    list.Clear();
+                    list.Add("患者性别", Model.gender.ToString());
+                    list.Add("患者年龄", Model.birthday == null ? "" : Model.birthday.Value.ToString(Const.DateTimeFormat));
+                    list.Add("身高", Model.height);
+                    list.Add("体重", Model.weight);
+                    list.Add("职业", Model.occupation);
+                    list.Add("主诉", Model.chief_complaint);
+                    list.Add("首诊", Model.primary_diagnosis);
+                    list.Add("病程", Model.present_illness_history);
+                    list.Add("既往病史", Model.past_history);
+                    list.Add("家族病史", Model.family_history);
+                    list.Add("个人病史", Model.personal_history);
+                    list.Add("治疗措施", Model.treatment_plan);
+                    list.Add("过敏史", Model.allergy_history);
+                }
+               @Html.Partial("ContentList", list) 
+            </div>
+            <div id="tabcase3" class="tab" onclick="ShowPatientCaseImages(@images_json)">
+                @foreach (var item in Model.patientcase_image.OrderBy(t => t.sorting_no))
+                {
+                    // 以卡片形式显示图片附件，点击查看幻灯片
+                    <div class="card">
+                        <div class="card-header">
+                            @item.cmn_image.path
+                        </div>
+                        <div class="card-content">
+                            <img src="/FileUpload/patientcase/@(Model.id)/@(item.cmn_image.thumbnail)" style="width:100%;" />
+                        </div>
+                        @if (string.IsNullOrEmpty(item.description) == false)
+                        {
+                            <div class="card-footer">@item.description</div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        
+        @if (Model.patientcase_conclusion.Count > 0)
+            {
+            <div class="content-block-title">@(Model.patientcase_conclusion.Count)条讨论意见</div>
+            <div class="list-block media-list">
+                <ul>
+                    @foreach (var item in Model.patientcase_conclusion)
+                    {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><img src="~/Contents/image/avatar/default/@(item.user_account.avatar)" width="44"></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">@item.user_account.name</div>
+                                        <div class="item-after">@item.created_dt.ToString("yyyy/MM/dd HH:mm")</div>
+                                    </div>
+                                    <div class="">@item.conclusion</div>
+                                    @if (user != null && user.id == item.user_id)
+                                    {
+                                        <div style="text-align:right; padding-top:5px;">
+                                            <a href="#" class="color-red" onclick="DeleteConclusion(@item.id)">
+                                                <span>删除讨论意见</span>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+
+
+    </div>
+
+</div>

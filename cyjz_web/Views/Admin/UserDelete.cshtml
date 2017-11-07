@@ -1,0 +1,127 @@
+﻿@model MH.Rescue.BIZ.user_account
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户已删除</title>
+</head>
+<body>
+    <h3>用户已删除</h3>
+    <div>
+        <h4>用户详细信息</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                用户名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.account)
+            </dd>
+
+
+            <dt>
+                用户角色
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.role)
+            </dd>
+
+            <dt>
+                用户姓名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+
+            <dt>
+                性别
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.gender)
+            </dd>
+
+            <dt>
+                出生日期
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.birthday)
+            </dd>
+            <dt>
+                电子邮件
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                手机号
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.mobile_number)
+            </dd>
+
+            <dt>
+                申请日期
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.created_dt)
+            </dd>
+
+
+
+            <dt>
+                所属医疗机构
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.hospital_name)
+            </dd>
+
+
+            <dt>
+                所属科室
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.department_name)
+            </dd>
+
+
+
+            <dt>
+                职务
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
+
+
+
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+
+                    @Html.ActionLink("返回用户列表", "UserList")
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+﻿@model MH.Rescue.BIZ.article_listview
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>文章详细信息</title>
+</head>
+<body>
+    <div>
+        <h4>文章详细信息</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                文章标题
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.title )
+            </dd>
+
+            <dt>
+                文章关键词
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.keyword)
+            </dd>
+    
+            <dt>
+                文章描述
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.summary)
+            </dd>
+    
+            <dt>
+                作者姓名
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.author_name)
+            </dd>
+    
+            <dt>
+                作者所属机构
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.author_org)
+            </dd>
+    
+            <dt>
+                作者所属部门
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.author_dept)
+            </dd>
+    
+            <dt>
+                文章文件类型
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.file_type)
+            </dd>
+    
+            <dt>
+                文章文件名
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.file_path)
+            </dd>
+    
+            <dt>
+                文章文件大小
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.file_size)
+            </dd>
+            <dt>
+                提交人
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apply_user_name)
+            </dd>
+            <dt>
+                提交日期时间
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apply_dt)
+            </dd>
+            <dt>
+                审核通过日期时间
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.admission_dt)
+            </dd>
+    
+            <dt>
+                审核未通过原因
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rejected_reason)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("批准", "ArticleConfirm", new { id = Model.apply_id  }) |
+        @Html.ActionLink("拒绝", "ArticleReject", new { id = Model.apply_id}) |
+        @Html.ActionLink("删除", "ArticleDelete", new { id = Model.apply_id }) |
+        @Html.ActionLink("返回文章列表", "Index")
+    </p>
+</body>
+</html>

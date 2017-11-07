@@ -1,0 +1,79 @@
+﻿@using MH.Rescue.BIZ
+@{
+    var user = ViewBag.CurrentUser as user_account;
+}
+<div data-page="article-list" class="page navbar-fixed">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/article/search" class="link icon-only color-white">
+                    <i class="f7-icons">search</i>
+                </a>
+            </div>
+            <div class="center">
+                学术列表
+            </div>
+            <div class="right">
+             <!--   @if (user == null)
+                {
+                    <a href="#" class="link color-white" onclick="ArticleDetailNeedSignin()">
+                        <i class="f7-icons">add_round</i>
+                        <span>不可添加</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="/article/new" class="link icon-only color-white">
+                        <i class="f7-icons">add_round</i>
+                    </a>
+                }  -->
+            </div>
+            <div class="subnavbar sliding ios-only">
+                <div class="buttons-row">
+                    <!--<a href="#tab21" class="button tab-link active">文章</a> -->
+                    <a href="#tab22" class="button tab-link active">学术动态</a>
+                    <a href="#tab23" class="button tab-link">疑难病例</a>
+                    <a href="#tab24" class="button tab-link">决策指导</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar tabbar android-only">
+        <div class="toolbar-inner">
+            <!--<a href="#tab21" class="tab-link active">文章</a>-->
+            <a href="#tab22" class="tab-link active">学术动态</a>
+            <a href="#tab23" class="tab-link">疑难病例</a>
+            <a href="#tab24" class="tab-link">决策指导</a>
+        </div>
+    </div>
+
+    <div id="ptrArticle" class="page-content with-subnavbar hide-bars-on-scroll pull-to-refresh-content">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="tabs">
+            <div id="tab21" class="tab">
+                @Html.Action("articlelist", "article")
+
+            </div>
+            <div id="tab22" class="tab active">
+                @Html.Action("index", "news")
+            </div>
+            <div id="tab23" class="tab">
+                <!--<div style="padding:150px 20px; text-align:center;">
+                    <i class="f7-icons" style="font-size:120px; opacity:0.2;">document_text_fill</i>
+                    <div style="padding:15px; opacity:0.5;">目前尚无病例</div>
+                </div>-->
+                @Html.Action("index", "elitecase")
+            </div>
+            <div id="tab24" class="tab">
+                @Html.Action("index", "cds")
+            </div>
+        </div>
+    </div>
+</div>
+
+

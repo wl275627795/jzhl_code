@@ -1,0 +1,78 @@
+﻿@using MH.Rescue.BIZ
+@model List<user_collect_record>
+
+@{
+    var article_list = ViewBag.ArticleList as List<article>;
+    var news_list = ViewBag.NewsList as List<news>;
+}
+<div data-page="my-fav" class="page navbar-fixed no-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/account/index" class="back link icon-only color-white" data-force="true">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                我的收藏
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        @if (Model == null || Model.Count == 0)
+            {
+            <div style="padding:150px 20px; text-align:center;">
+                <i class="f7-icons" style="font-size:120px; opacity:0.2;">star_fill</i>
+                <div style="padding:15px;">
+                    目前没有收藏的内容
+                </div>
+            </div>
+            }
+            else
+            {
+            <div class="list-block no-margin-top">
+                <ul>
+                    @foreach (var item in Model)
+                        {
+                            var url = string.Empty;
+                            var icon = string.Empty;
+                            var title = string.Empty;
+                            var type = 0;
+                            if (item.content_type == ContentType.文章)
+                            {
+                                url = "/article/detail?fromfav=true&id=" + item.content_id;
+                                icon = "fa-file-text-o";
+                                title = article_list.FirstOrDefault(t => t.id == item.content_id).title;
+                                type = (int)ContentType.文章;
+                            }
+                            if (item.content_type == ContentType.新闻)
+                            {
+                                url = "/news/detail?fromfav=true&id=" + item.content_id;
+                                icon = "fa-newspaper-o";
+                                title = news_list.FirstOrDefault(t => t.id == item.content_id).title;
+                                type = (int)ContentType.新闻;
+                            }
+                        <li class="swipeout">
+                            <a href="@url" class="item-link item-content swipeout-content">
+                                <div class="item-media" style="width:25px;">
+                                    <i class="fa @icon color-blue"></i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title">@title</div>
+                                </div>
+                            </a>
+                            <div class="swipeout-actions-right">
+                                <a href="#" class="bg-red color-white" onclick="RemoveCollection(@(item.user_id), @(type), @item.content_id)">移除收藏</a>
+                            </div>
+                        </li>
+                        }
+                </ul>
+            </div>
+            }
+    </div>
+
+</div>

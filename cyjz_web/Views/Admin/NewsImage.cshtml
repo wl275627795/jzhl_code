@@ -1,0 +1,48 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<news_imageview>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>新闻图片</title>
+</head>
+<body>
+    <div style="padding:0 5px;">
+        <h4>新闻图片</h4>
+        <table class="table border bordered bg-white hovered">
+            <tr class="bg-grayLight fg-white">
+                <td>序号</td>
+                <td>图片</td>
+                <td>图片描述</td>
+            </tr>
+            <!--获取图片列表-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.sorting_no</td>
+
+                    <td>
+                        <p>
+                            <img src="/FileUpload/news/@(item.news_id)/@(item.path)" height="512">
+                        </p>
+                    </td>
+                    <td>
+                        @item.description
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    <p>
+        @Html.ActionLink("返回新闻列表", "NewsList")
+    </p>
+</body>
+</html>

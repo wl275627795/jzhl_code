@@ -1,0 +1,174 @@
+﻿@using MH.Rescue.BIZ
+@model user_account
+
+@{
+    var collections = ViewBag.UserCollections as List<user_collect_record>;
+    var messages = ViewBag.Messages as List<message>;
+}
+<div data-page="account" class="page navbar-fixed">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="center">
+                我的
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" style="padding-bottom:80px;">
+        <div class="list-block media-list">
+            <ul>
+                @if (Model == null)
+                {
+                    <li>
+                        <a href="#" class="item-link item-content" onclick="AskSignin()">
+                            <div class="item-media">
+                                <img src="~/Contents/image/avatar/default/user.png" width="64" style="opacity:0.5;">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">未登录</div>
+                                </div>
+                                <div class="item-subtitle color-blue">点此登录或新注册</div>
+                                <div class="item-subtitle" style="opacity:0.5;">&nbsp;</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/account/myprofile" data-view=".view-5" data-ignore-cache="true" class="item-link item-content">
+                            <div class="item-media">
+                                @if (string.IsNullOrEmpty(Model.avatar) == true) // 无头像
+                                {
+                                    <div style="display:inline-block; height:64px; width:64px; border-radius:50%; background-color:#ccc; color:white; text-align:center; line-height:64px;">无头像</div>
+                                }
+                                else
+                                {
+                                    <img src="~/Contents/image/avatar/default/@Model.avatar" width="64">
+                                }
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">@Model.name</div>
+                                </div>
+                                <div class="item-subtitle">@Model.hospital_name · @Model.department_name</div>
+                                <div class="item-subtitle" style="opacity:0.5;">@Model.mobile_number</div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="list-block @(Model==null?"disabled":"")">
+            <ul>
+                <li>
+                    <a href="/account/myteaching" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-blue">today</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">我的课堂</div>
+                            <div class="item-after">
+                                @(collections.Count(t => t.content_type == ContentType.回放))
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/mypatientcase" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-red">drawers</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">收藏病例</div>
+                            <div class="item-after">
+                                @(collections.Count(t => t.content_type == ContentType.病例))
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/myfav" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-orange">star</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">收藏学术动态</div>
+                            <div class="item-after">
+                                @(collections.Count(t => t.content_type == ContentType.新闻))
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/myresource" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-lightblue">images</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">我的资源</div>
+                            <div class="item-after">
+                                0
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/mymessages" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-green">chat</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">我的消息</div>
+                            <div class="item-after">
+                                @{
+                                    var newmsg = messages.Count(t => t.is_read == false);
+                                    if (newmsg > 0)
+                                    {
+                                        <span class="badge color-red">@newmsg</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@messages.Count()</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/account/mycds" class="item-link item-content">
+                        <div class="item-media" style="width:25px;">
+                            <i class="f7-icons color-blue">books</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">常用指导</div>
+                            <div class="item-after">
+                                @(collections.Count(t => t.content_type == ContentType.指导))
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="list-block">
+            <ul>
+                <li>
+                    <a href="/account/about" class="item-link item-content">
+                        <div class="item-media">
+                            <i class="f7-icons color-blue">info</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">关于</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

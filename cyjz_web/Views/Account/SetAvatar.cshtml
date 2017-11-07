@@ -1,0 +1,38 @@
+﻿@using MH.Rescue.BIZ
+@model user_account
+
+<div data-page="set-avatar" class="page navbar-fixed toolbar-fixed no-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/account/MyProfile" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                设置头像
+            </div>
+            <div class="right">
+                <a href="#" class="link color-white" onclick="SubmitAvatar()">
+                    <i class="f7-icons">check_round</i>
+                    <span>保存</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" style="padding-top:60px;">
+        <input type="hidden" id="hidSelectedAvatar" />
+        @{
+            var list = new string[] { "user", "user-female", "doctor", "doctor2", "doctor3", "doctor4", "doctor5", "nurse", "nurse2", "nurse3", "nurse4", "surgeon2", "man", "girl" };
+            foreach (var img in list)
+            {
+                <div style="display:inline-block; text-align:center; width:24%; padding:5px 0; margin:0; cursor:pointer;" onclick="SelectAvatar('@img')">
+                    <img id="img_avatar_@img" class="img_avatar @(img+".png" == Model.avatar ? "border-blue" : "border-white")" src="~/Contents/image/avatar/default/@(img).png" width="64" style="border-radius:50%;" />
+                </div>
+            }
+        }
+    </div>
+</div>
+

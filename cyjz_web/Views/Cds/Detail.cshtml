@@ -1,0 +1,108 @@
+﻿@using MH.Rescue.BIZ
+@model decision_support
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var collection = ViewBag.Collection as user_collect_record;
+}
+<div data-page="cds-detail" class="page navbar-fixed toolbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                @if (Request.QueryString["fromfav"] == "true")
+                {
+                    <a href="/account/mycds" class="back link icon-only color-white" data-force="true">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="/cds/index" class="back link icon-only color-white">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+            </div>
+            <div class="center">
+                决策指导详情
+            </div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        @if (user == null)
+            {
+            <div class="toolbar-inner" onclick="ArticleDetailNeedSignin()">
+                <a href="#" class="link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">star</i>
+                    <span>收藏</span>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                @if (collection == null)
+                {
+                    <a href="#" class="link" onclick="AddToCollection(@(user.id), @((int)ContentType.指导), @Model.id)">
+                        <i class="f7-icons">star</i>
+                        <span>添加收藏</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" class="link" onclick="RemoveCollection(@(user.id), @((int)ContentType.指导), @Model.id)">
+                        <i class="f7-icons color-orange">star_fill</i>
+                        <span>取消收藏</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="page-content hide-bars-on-scroll">
+        <div class="list-block media-list no-margin-top-2" style="margin-bottom:80px;">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner detail-title">
+                            @Model.disease_name
+                        </div>
+                    </div>
+                </li>
+                @{
+                    var list = new Dictionary<string, string>();
+                    list.Add("疾病部位", Model.disease_position);
+                    list.Add("症状", Model.symptoms);
+                    list.Add("体征", Model.signs);
+                    list.Add("图像提示", Model.image_indication);
+                    list.Add("检验提示", Model.lab_indication);
+                    list.Add("诊断要点", Model.key_point_diagnosis);
+                    list.Add("急诊处理", Model.emergency_treatment);
+                    foreach (var item in list)
+                    {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="list-item-title">@item.Key</div>
+                                    <div class="list-item-content">@item.Value</div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+
+</div>

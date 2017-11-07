@@ -1,0 +1,79 @@
+﻿@model MH.Rescue.BIZ.user_account
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户审核</title>
+</head>
+<body>
+    <div>
+        <h4>用户审核通过</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                用户名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.account)
+            </dd>
+
+            <dt>
+                用户姓名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.name)
+            </dd>
+            <dt>
+                所属医疗机构
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.hospital_name)
+            </dd>
+
+
+            <dt>
+                所属科室
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.department_name)
+            </dd>
+
+
+
+            <dt>
+                职务
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
+
+            <dt>
+                手机号
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.mobile_number)
+            </dd>
+
+            <dt>
+                已通过审核
+            </dt>
+
+        </dl>
+    </div>
+    <p>
+         @Html.ActionLink("返回用户管理", "UserList")
+    </p>
+</body>
+</html>

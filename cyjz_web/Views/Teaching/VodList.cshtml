@@ -1,0 +1,45 @@
+﻿@using MH.Rescue.BIZ
+@model List<teaching_vod>
+
+@if (Model == null || Model.Count == 0)
+{
+    <div style="padding:150px 20px; text-align:center;">
+        <i class="f7-icons" style="font-size:120px; opacity:0.2;">play_round_fill</i>
+        <div style="padding:15px;">
+            暂无教学视频
+        </div>
+    </div>
+}
+else
+{
+    <div class="list-block media-list no-margin-top-2">
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="/teaching/voddetail?id=@(item.id)" class="item-link item-content">
+                        <div class="item-media">
+                            @if (item.cmn_image == null)
+                            {
+                                <div style="width:80px; height:80px; background-color:#ddd; text-align:center; vertical-align:middle;">
+                                    <span class="fa fa-video-camera color-white" style="font-size:45px; padding-top:20px;"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="background-image:url('/FileUpload/Teaching_vod/@(item.id)/@(item.cmn_image.thumbnail)'); background-size:cover; width:80px; height:80px;"></div>
+                            }
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">@item.title</div>
+                            </div>
+                            <div class="item-subtitle">@item.teacher_name · @item.created_dt.ToString(MH.CMN.Const.DateTimeFormat)</div>
+                            <div class="item-text">@item.description</div>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,300 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model patientcase
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var show_tab3 = Request.QueryString["tab"] == "3"; // 是否切换到tab3（附件图片）
+    var back_link = Model.status == PatientCaseStatusType.草稿 ? "index" : "detail?id=" + Model.id;
+}
+<div data-page="patientcase-edit" class="page navbar-fixed toolbar-fixed no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/patientcase/@back_link" class="back link icon-only color-white" data-force="true">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                @(Model.status == PatientCaseStatusType.草稿 ? "新建" : "编辑")远程会诊病例
+            </div>
+            <div class="right">
+            </div>
+            <div class="subnavbar sliding ios-only">
+                <div class="buttons-row">
+                    <a href="#tabcaseedit1" class="button tab-link @(show_tab3?"":"active")">会诊信息</a>
+                    <a href="#tabcaseedit2" class="button tab-link">病例信息</a>
+                    <a href="#tabcaseedit3" class="button tab-link @(show_tab3?"active":"")">附件 (@(Model.patientcase_image.Count))</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar tabbar android-only">
+        <div class="toolbar-inner">
+            <a href="#tabcaseedit1" class="tab-link @(show_tab3?"":"active")">会诊信息</a>
+            <a href="#tabcaseedit2" class="tab-link">病例信息</a>
+            <a href="#tabcaseedit3" class="tab-link @(show_tab3?"active":"")">附件 (@(Model.patientcase_image.Count))</a>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        <div class="toolbar-inner">
+            <a href="/patientcase/imagenew?id=@(Model.id)" class="link">
+                <i class="f7-icons">images</i>
+                <span>新附件</span>
+            </a>
+            @if (Model.status == PatientCaseStatusType.草稿) // 仅草稿状态才可暂存和提交，否则只可以update
+            {
+                <a href="#" class="link" onclick="SavePatientCase(@(Model.id), 1)">
+                    <i class="f7-icons">drawer</i>
+                    <span>存草稿</span>
+                </a>
+                <a href="#" class="link" onclick="SavePatientCase(@(Model.id), 2)">
+                    <i class="f7-icons">check_round</i>
+                    <span>提交</span>
+                </a>
+            }
+            else
+            {
+                <a href="#" class="link" onclick="SavePatientCase(@(Model.id), 3)">
+                    <i class="f7-icons">check_round</i>
+                    <span>保存</span>
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="page-content with-subnavbar" style="padding-bottom:50px;">
+        <form id="formPatientCaseEdit">
+            <input type="hidden" name="id" value="@Model.id" />
+            <input type="hidden" name="owner_id" value="@Model.owner_id" />
+            <input type="hidden" name="created_dt" value="@Model.created_dt" />
+            <input type="hidden" name="status" value="@Model.status" />
+            <input type="hidden" name="admission_dt" value="@Model.admission_dt" />
+            <input type="hidden" name="rejected_reason" value="@Model.rejected_reason" />
+            <div class="tabs">
+                <div id="tabcaseedit1" class="tab  @(show_tab3?"":"active")">
+                    <div class="list-block">
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">
+                                            标题
+                                            <span class="color-red">*</span>
+                                        </div>
+                                        <div class="item-input">
+                                            <input type="text" name="title" placeholder="必填项" value="@Model.title">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">描述</div>
+                                        <div class="item-input">
+                                            <textarea name="description">@Model.description</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">申请人</div>
+                                        <div class="item-input">
+                                            <input type="text" disabled value="@user.name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">状态</div>
+                                        <div class="item-input">
+                                            <input type="text" disabled value="@Model.status">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tabcaseedit2" class="tab">
+                    <div class="list-block">
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">患者性别</div>
+                                        <div class="item-input">
+                                            @Html.EnumDropDownListFor(t => t.gender)
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">出生日期</div>
+                                        <div class="item-input">
+                                            <input type="date" name="birthday" value="@(Model.birthday != null ? Model.birthday.Value.ToString("yyyy-MM-dd") :"")">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">身高</div>
+                                        <div class="item-input">
+                                            <input type="text" name="height" placeholder="单位：厘米" value="@Model.height">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">体重</div>
+                                        <div class="item-input">
+                                            <input type="text" name="weight" placeholder="单位：千克" value="@Model.weight">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">职业</div>
+                                        <div class="item-input">
+                                            <input type="text" placeholder="" name="occupation" value="@Model.occupation">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">主诉</div>
+                                        <div class="item-input">
+                                            <textarea name="chief_complaint">@Model.chief_complaint</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">首诊</div>
+                                        <div class="item-input">
+                                            <textarea name="primary_diagnosis">@Model.primary_diagnosis</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">病程</div>
+                                        <div class="item-input">
+                                            <textarea name="present_illness_history">@Model.present_illness_history</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">既往病史</div>
+                                        <div class="item-input">
+                                            <textarea name="past_history">@Model.past_history</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">家族病史</div>
+                                        <div class="item-input">
+                                            <textarea name="family_history">@Model.family_history</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">个人病史</div>
+                                        <div class="item-input">
+                                            <textarea name="personal_history">@Model.personal_history</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                         
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">过敏史</div>
+                                        <div class="item-input">
+                                            <textarea name="allergy_history">@Model.allergy_history</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">治疗措施</div>
+                                        <div class="item-input">
+                                            <textarea name="treatment_plan">@Model.treatment_plan</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tabcaseedit3" class="tab @(show_tab3?"active":"")">
+                    @if (Model.patientcase_image.Count == 0)
+                    {
+                        <div style="padding:150px 20px; text-align:center;">
+                            <i class="f7-icons" style="font-size:120px; opacity:0.2;">images_fill</i>
+                            <div style="padding:15px; opacity:0.5;">目前没有附件</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-block media-list">
+                            <ul>
+                                @foreach (var item in Model.patientcase_image.OrderBy(t => t.sorting_no))
+                                {
+                                    <li>
+                                        <a href="/patientcase/imageedit?id=@(item.id)" class="item-link item-content">
+                                            <div class="item-media">
+                                                <div style="width:80px; height:80px; background-image:url('/FileUpload/patientcase/@(Model.id)/@(item.cmn_image.thumbnail)'); background-size:cover;"></div>
+                                            </div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">@item.cmn_image.path</div>
+                                                </div>
+                                                <div class="item-text" style="-webkit-line-clamp:3; max-height:60px;">@item.description</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

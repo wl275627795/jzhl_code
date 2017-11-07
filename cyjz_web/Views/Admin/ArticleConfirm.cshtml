@@ -1,0 +1,63 @@
+﻿@model MH.Rescue.BIZ.article_listview
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>文章审核通过</title>
+</head>
+<body>
+    <div>
+        <h4>文章审核通过</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                文章标题
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
+            <dt>
+                作者姓名
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.author_name)
+            </dd>
+
+            <dt>
+                作者所属机构
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.author_org)
+            </dd>
+            提交人
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apply_user_name)
+            </dd>
+            <dt>
+                提交日期时间
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apply_dt)
+            </dd>
+            <dt>
+                文章已批准发布
+            </dt>
+        </dl>
+    </div>
+    <p>
+                @Html.ActionLink("返回文章管理", "Index")
+    </p>
+</body>
+</html>

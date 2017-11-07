@@ -1,0 +1,90 @@
+﻿@model MH.Rescue.BIZ.decision_support
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>决策支持详情</title>
+</head>
+<body>
+    <div>
+        <h4>决策支持详情</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                疾病名称
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.disease_name)
+            </dd>
+    
+            <dt>
+                疾病部位
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.disease_position)
+            </dd>
+    
+            <dt>
+                症状
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.symptoms)
+            </dd>
+    
+            <dt>
+                体征
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.signs)
+            </dd>
+    
+            <dt>
+                图像检查
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.image_indication)
+            </dd>
+    
+            <dt>
+                实验室检查
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.lab_indication)
+            </dd>
+    
+            <dt>
+                诊断要点
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.key_point_diagnosis)
+            </dd>
+    
+            <dt>
+                急诊处置
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.emergency_treatment)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("删除", "CdsDelete", new { id = Model.id }) |
+        @Html.ActionLink("返回决策支持列表", "CdsList")
+    </p>
+</body>
+</html>

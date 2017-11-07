@@ -1,0 +1,60 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<user_account>
+
+<script>
+    $(document).ready(function() {
+
+        if (Math.ceil(((@ViewBag.Count * 1) / 15)) > 1) {
+            $("#B_down").attr("disabled", false);
+        }
+        if ($("#H_page").val() > 1) {
+            $("#B_UP").attr("disabled", false);
+        }
+    });
+</script>
+
+<table class="table border bordered bg-white hovered">
+    <tr class="bg-grayLight fg-white">
+        <td>用户姓名</td>
+        <td>手机号码</td>
+        <td>单位名称</td>
+        <td>所在科室</td>
+        <td>注册日期</td>
+        <td>状态</td>
+        <td style="width: 240px;">操作</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.name</td>
+            <td>@item.mobile_number</td>
+            <td>@item.hospital_name</td>
+            <td>@item.department_name</td>
+            <td>@item.created_dt.ToString(Const.DateTimeFormat)</td>
+            <td class="fg-black">@item.status</td>
+            <td class="align-center">
+
+                @Html.ActionLink("查看", "UserDetail", new {id = item.id}) |
+                @Html.ActionLink("批准", "UserConfirm", new {id = item.id}) |
+                @Html.ActionLink("拒绝", "UserReject", new {id = item.id}) |
+                @Html.ActionLink("删除", "UserDelete", new {id = item.id})
+
+            </td>
+        </tr>
+    }
+</table>
+<table style="width:100%; table-layout:fixed;">
+    <tr>
+        <td>
+            <span>共 @ViewBag.Count 条</span>
+        </td>
+        <td class="align-center">
+            <button class="button mif-previous" disabled="true" id="B_UP" onclick="UP()"></button>
+            <button class="button mif-next" disabled="true" id="B_down" onclick="Down()"></button>
+        </td>
+        <td></td>
+    </tr>
+</table>
+
+

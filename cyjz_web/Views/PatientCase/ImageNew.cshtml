@@ -1,0 +1,61 @@
+﻿@using MH.Rescue.BIZ
+@model int
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+}
+
+<div data-page="patientcase-image-new" class="page navbar-fixed toolbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/patientcase/edit?id=@(Model)" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                添加新的图片附件
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <form id="formNewPatientCaseImage" action="/patientcase/addimage" class="list-block ajax-submit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="@Model" />
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">图片附件</div>
+                            <div class="item-input">
+                                <input type="file" name="file" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">图片描述</div>
+                            <div class="item-input">
+                                <textarea name="descrip" placeholder="附件图片的内容描述（非必须）"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50">
+                        <input type="submit" class="button button-big button-fill color-blue button-raised active" value="保存" />
+                    </div>
+                    <div class="col-50"><a href="#" class="button button-big button-raised" onclick="document.getElementById('formNewPatientCaseImage').reset()">重置</a></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

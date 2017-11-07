@@ -1,0 +1,49 @@
+﻿@using MH.Rescue.BIZ
+
+@if (Model.List == null || Model.List.Count == 0)
+{
+    <div style="padding:150px 20px; text-align:center;">
+        <i class="f7-icons" style="font-size:120px; opacity:0.2;">drawers_fill</i>
+        <div style="padding:15px; opacity:0.5;">目前尚无会诊病例</div>
+    </div>
+}
+else
+{
+    <div class="list-block media-list no-margin-top-2">
+        <ul>
+            @foreach (var item in Model.List as List<patientcase>)
+            {
+                <li>
+                    <a href="/patientcase/detail?tab=@(Model.Tab)&id=@(item.id)" class="item-link item-content">
+                        <div class="item-media">
+                            @if (item.patientcase_image.Count > 0) // 有图片，显示第一幅图片的缩略图
+                            {
+                                var first = item.patientcase_image.OrderBy(t => t.sorting_no).First();
+                                var img_url = "/FileUpload/patientcase/" + item.id.ToString() + "/" + first.cmn_image.thumbnail;
+                                <div style="background-image:url('@img_url'); background-size:cover; width:80px; height:80px;">
+                                </div>
+                            }
+                            else // 无图片，显示默认
+                            {
+                                <div style="width:80px; height:80px; background-color:#ddd; text-align:center; vertical-align:middle;">
+                                    <span class="fa fa-patientcasepaper-o color-white" style="font-size:45px; padding-top:20px;"></span>
+                                </div>
+                            }
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">@item.title</div>
+                                <div class="item-after">
+                                    <div class="item-text">@item.status </div>
+                                    <span class="badge color-orange">@item.patientcase_conclusion.Count</span>
+                                </div>
+                            </div>
+                            <div class="item-subtitle">@item.created_dt.ToShortDateString() · @item.owner.name @item.owner.hospital_name @item.owner.department_name</div>
+                            <div class="item-text">@item.description</div>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}

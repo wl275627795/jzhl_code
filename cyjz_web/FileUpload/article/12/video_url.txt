@@ -1,0 +1,25 @@
+http://localhost:22763/FileUpload/teaching_vod/1/small.mp4
+
+http://localhost:22763/FileUpload/teaching_vod/3/small.mp4
+
+http://localhost:22763/FileUpload/teaching_vod/1/small.mp4
+
+http://1253563532.vod2.myqcloud.com/e4a6cb2avodtransgzp1253563532/4ff04c8d9031868222925678532/f0.f20.mp4
+
+
+web app 变更说明
+
+1.修改标题“朝阳急诊协作平台”为“急诊互联”
+
+2.修改ArticleController.SubmitArticle()函数 apply_status为待审批 
+
+3.修改VodDetail.cshtml中的<video>标签为pull_url字段
+===========================================================
+
+
+http://101.37.87.53:9012/admin/signin
+
+http://101.37.87.53:9012/
+
+
+https://pts.aliyun.com/lite/index.htm?spm=5176.7946858.209627.2.iiFWKE

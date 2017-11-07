@@ -1,0 +1,129 @@
+﻿@using MH.Rescue.BIZ
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+}
+<div data-page="article-new" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/article/index" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                新建学术/科普文章
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content" style="padding-bottom:80px;">
+
+        <form id="formNewArticle" action="/article/submitarticle" class="list-block ajax-submit" method="post" enctype="multipart/form-data">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">
+                                文章标题
+                                <span class="color-red">*</span>
+                            </div>
+                            <div class="item-input">
+                                <input type="text" name="title" placeholder="必填项">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">
+                                文章类型
+                                <span class="color-red">*</span>
+                            </div>
+                            <div class="item-input">
+                                <select name="type">
+                                    <option value="0">学术类</option>
+                                    <option value="1">科普类</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">关键词</div>
+                            <div class="item-input">
+                                <input type="text" name="keyword">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">摘要</div>
+                            <div class="item-input">
+                                <textarea name="summary"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">作者姓名</div>
+                            <div class="item-input">
+                                <input type="text" name="author_name" value="@user.name">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">作者单位</div>
+                            <div class="item-input">
+                                <input type="text" name="author_org" value="@user.hospital_name">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">作者部门(科室)</div>
+                            <div class="item-input">
+                                <input type="text" name="author_dept" value="@user.department_name">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">附件</div>
+                            <div class="item-input">
+                                <input type="file" name="file" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50">
+                        <input type="submit" class="button button-big button-fill color-blue button-raised active" value="提交" />
+                    </div>
+                    <div class="col-50"><a href="#" class="button button-big button-raised" onclick="document.getElementById('formNewArticle').reset()">重置</a></div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>

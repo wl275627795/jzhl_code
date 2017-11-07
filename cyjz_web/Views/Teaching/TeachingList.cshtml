@@ -1,0 +1,25 @@
+﻿@using MH.Rescue.BIZ
+@using System.Configuration
+@model List<teaching_liv>
+
+@{
+    var tab = (int)ViewBag.TabIndex;
+    var vods = ViewBag.TeachingVods as List<teaching_vod>;
+    // 区分出专家查房和其它类型的视频回放（vod）
+    var wardrounds_categoryid = int.Parse(ConfigurationManager.AppSettings["VodCategory_WardRounds"]);
+    var wardrounds = vods.Where(t => t.category_id == wardrounds_categoryid).ToList();
+    var other_vod = vods.Where(t => t.category_id != wardrounds_categoryid).ToList();
+}
+
+<div id="tab1" class="tab @(tab==1?"active":"")">
+    @Html.Partial("LivList", Model.Where(t => t.start_dt > DateTime.Now).ToList())
+</div>
+<div id="tab2" class="tab @(tab==2?"active":"")">
+    @Html.Partial("LivList", Model.Where(t => t.start_dt <= DateTime.Now && t.end_dt > DateTime.Now).ToList())
+</div>
+<div id="tab3" class="tab @(tab==3?"active":"")">
+    @Html.Partial("VodList", other_vod)
+</div>
+<div id="tab4" class="tab @(tab==4?"active":"")">
+    @Html.Partial("VodList", wardrounds)
+</div>

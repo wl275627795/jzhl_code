@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>急诊互联 后台管理</title>
+    <link href="~/Contents/colors.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-colors.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-icons.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-responsive.css" rel="stylesheet" />
+    <link href="~/Contents/metroui/css/metro-schemes.css" rel="stylesheet" />
+    <link href="~/Contents/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Contents/admin-mainstyle.css" rel="stylesheet" />
+    <script src="~/Contents/jquery/jquery-3.1.0.min.js"></script>
+    <script src="~/Contents/metroui/js/metro.js"></script>
+    <script src="~/Contents/admin-mainjs.js"></script>
+</head>
+<body class="bg-darkBlue" >
+    <div style="position:fixed; left:50%; top:50%; display:inline-block; width:900px; height:400px; margin-top:-200px; margin-left:-450px;" class="bg-white">
+        <table style="width:100%;height:100%;" cellpadding="0" >
+            <tr>
+                <td style="background-image:url('/Contents/image/emergency-department.jpg'); background-size:cover; width:55%;" class=""></td>
+                <td class="padding20 bg-blue-400 fg-white" style="position:relative;">
+                    <div class="header">急诊互联 系统管理</div>
+                    <div class="half-opacity" style="padding-top:40px;">手机号</div>
+                    <div class="input-control text size-4">
+                        <input type="text"  id="txtSigninMobile" name="mobile" placeholder="请输入手机号码">
+                    </div>
+                    <div class="half-opacity">密码</div>
+                    <div class="input-control text size-4">
+                        <input type="password"  id="txtSigninPassword" name="password" placeholder="请输入密码" >
+                    </div>
+                    <div style="padding-top:30px;">
+                        <a class="button primary size-4"  onclick="fun()" >
+                            <span class="mif-arrow-right"></span>
+                            登录
+                        </a>
+                    </div>
+                    <script>
+                            function fun()
+                            {
+                               
+                                //需要通过ajax调用后台的动作
+                                $.ajax({
+                                    url: "/admin/LoginSignin",
+                                    data: { LoginName: $("#txtSigninMobile").val(), LoginPassword: $("#txtSigninPassword").val() },
+                                    success: function (data) {
+                                        if (data == "") {
+                                            alert("登录信息有误，请重新输入！");
+                                            document.getElementById("txtSigninMobile").value = "";
+                                            document.getElementById("txtSigninPassword").value = "";
+                                        } else {
+                                            window.location.href = data;
+                                        }
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        alert("加载失败：" + errorThrown);
+                                    }
+                                });
+                            }
+                    </script>
+
+                    <div style="position:absolute; bottom:20px; right:20px;">
+                        <img src="~/Contents/image/logo_白字.png" width="100" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+
+</html>

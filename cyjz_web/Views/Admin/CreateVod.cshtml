@@ -1,0 +1,36 @@
+﻿@model MH.Rescue.BIZ.teaching_vod
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>发布视频回放</title>
+</head>
+<body>
+    @using (Html.BeginForm("CreateVod", "Admin", FormMethod.Post))
+    {
+        <p>视频名称: @Html.TextBoxFor(x => x.title) </p>
+        <p>主讲人姓名: @Html.TextBoxFor(x => x.teacher_name) </p>
+        <p>主讲人单位: @Html.TextBoxFor(x => x.teacher_org) </p>
+        <p>主讲人科室: @Html.TextBoxFor(x => x.teacher_dept) </p>
+        <p>主讲人职称: @Html.TextBoxFor(x => x.teacher_title) </p>
+        <p>视频描述: @Html.TextAreaFor(x => x.description) </p>
+        <p>视频类型: @Html.TextBoxFor(x => x.video_type) (0-流媒体, 1-嵌入网页代码)</p>
+        <p>流媒体地址: @Html.TextAreaFor(x => x.pull_url)  (视频类型为 1 时)</p>
+        <p>嵌入代码: @Html.TextAreaFor(x => x.video_code) (视频类型为 1 时)</p>
+        
+        <p>
+            <input type="submit" id="btnSubmit" value="确认提交" />
+        </p>
+    }
+    
+    <div>
+        @Html.ActionLink("返回教学回放列表", "VodList")
+    </div>
+</body>
+</html>

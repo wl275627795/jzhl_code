@@ -1,0 +1,114 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model List<user_account>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "用户管理";
+}
+
+<div class="padding10">
+    <table style="width:100%; table-layout:fixed;" cellpadding="5">
+        <tr>
+            <td>
+                <div class="half-opacity">用户姓名</div>
+                <div class="input-control text full-size">
+                    <input type="text">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">手机号码</div>
+                <div class="input-control text full-size">
+                    <input type="text">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">单位名称</div>
+                <div class="input-control text full-size">
+                    <input type="text">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">所在科室</div>
+                <div class="input-control text full-size">
+                    <input type="text">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">状态</div>
+                <select class="input-control select full-size">
+                    <option>全部</option>
+                </select>
+            </td>
+            <td>
+                <div class="half-opacity">注册日期</div>
+                <select class="input-control select full-size">
+                    <option>全部</option>
+                </select>
+            </td>
+            <td style="width:250px;">
+                <div>&nbsp;</div>
+                <button class="button primary">
+                    <span class="mif-search"></span>
+                    查询
+                </button>
+                <button class="button">
+                    <span class="mif-undo"></span>
+                    重置
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <div style="padding:0 5px;">
+        <table class="table border bordered bg-white hovered">
+            <tr class="bg-grayLight fg-white">
+                <td>用户姓名</td>
+                <td>手机号码</td>
+                <td>单位名称</td>
+                <td>所在科室</td>
+                <td>注册日期</td>
+                <td>状态</td>
+                <td style="width:240px;">操作</td>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.name</td>
+                    <td>@item.mobile_number</td>
+                    <td>@item.hospital_name</td>
+                    <td>@item.department_name</td>
+                    <td>@item.created_dt.ToString(Const.DateTimeFormat)</td>
+                    <td class="fg-black">@item.status</td>
+                    <td class="align-center">
+                        
+                        @Html.ActionLink("查看", "UserDetail", new { id = item.id }) |
+                        @Html.ActionLink("批准", "UserConfirm", new { id = item.id }) |
+                        @Html.ActionLink("拒绝", "UserReject", new { id = item.id }) |
+                        @Html.ActionLink("删除", "UserDelete", new { id = item.id })
+
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <table style="width:100%; table-layout:fixed;">
+            <tr>
+                <td>
+                    <span>共...条符合查询条件的记录</span>
+                </td>
+                <td class="align-center">
+                    <button class="button mif-previous disabled"></button>
+                    <button class="button bg-lightBlue fg-white">1</button>
+                    <button class="button">2</button>
+                    <button class="button">3</button>
+                    <button class="button">4</button>
+                    <button class="button">5</button>
+                    <button class="button mif-next"></button>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+

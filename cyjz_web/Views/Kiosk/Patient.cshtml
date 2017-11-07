@@ -1,0 +1,55 @@
+﻿
+<div data-page="kiosk-patient" class="page navbar-fixed no-toolbar no-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/kiosk/index" class="back link icon-only color-white">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                自助问诊答卷
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <div class="content-block-title">提交时间：2017/07/15 09:33</div>
+        <div class="list-block media-list">
+            <ul>
+                @{
+                    var list = new Dictionary<string, string>();
+                    list.Add("基本信息", "00221011 / 张三 / 男 / 65岁 / O型");
+                    list.Add("就诊序号", "123");
+                    list.Add("现病史", "发热38度 / 持续2天 / 未就诊过 / ");
+                    list.Add("已用药物", "阿司匹林");
+                    list.Add("既往史", "青霉素过敏 / 没输过血 / 没做过手术 / 没得过结核病 / 没得过肝炎 / ");
+                    list.Add("高血压史", "50岁起病 / 最高150、80 / 服用氨氯地平 / 控制良好 ");
+                    list.Add("糖尿病史", "（无/未填）");
+                    list.Add("个人史", "（无/未填）");
+                    list.Add("家族史", "（无/未填）");
+
+                    foreach (var item in list)
+                    {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div style="opacity:0.5;">@item.Key</div>
+                                    </div>
+                                    <div class="item-subtitle2">@item.Value</div>
+                                </div>
+                            </div>
+                        </li>
+                        }
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>
+

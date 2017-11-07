@@ -1,0 +1,59 @@
+﻿@using MH.Rescue.BIZ
+@model List<patientcase>
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+}
+<div data-page="my-patientcase" class="page navbar-fixed no-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="/account/index" class="back link icon-only color-white" data-force="true">
+                    <i class="icon icon-back color-white"></i>
+                </a>
+            </div>
+            <div class="center">
+                收藏病例
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        @if (Model == null || Model.Count == 0)
+            {
+            <div style="padding:150px 20px; text-align:center;">
+                <i class="f7-icons" style="font-size:120px; opacity:0.2;">drawers_fill</i>
+                <div style="padding:15px;">
+                    目前没有收藏的病例
+                </div>
+            </div>
+            }
+            else
+            {
+            <div class="list-block no-margin-top">
+                <ul>
+                    @foreach (var item in Model)
+                        {
+                        <li class="swipeout">
+                            <a href="/patientcase/detail?fromfav=true&id=@item.id" class="item-link item-content swipeout-content">
+                                <div class="item-media">
+                                    <i class="f7-icons color-blue">drawers</i>
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title">@item.title</div>
+                                </div>
+                            </a>
+                            <div class="swipeout-actions-right">
+                                <a href="#" class="bg-red color-white" onclick="RemoveCollection(@(user.id), @((int)ContentType.病例), @item.id)">移除收藏</a>
+                            </div>
+                        </li>
+                        }
+                </ul>
+            </div>
+            }
+    </div>
+
+</div>

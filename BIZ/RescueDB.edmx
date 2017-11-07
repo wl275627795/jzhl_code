@@ -1,0 +1,2754 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MH.RescueModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="article">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="keyword" Type="nvarchar" MaxLength="256" />
+          <Property Name="summary" Type="nvarchar(max)" />
+          <Property Name="author_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="author_dept" Type="nvarchar" MaxLength="64" />
+          <Property Name="author_org" Type="nvarchar" MaxLength="64" />
+          <Property Name="file_type" Type="nvarchar" MaxLength="256" />
+          <Property Name="file_path" Type="nvarchar(max)" />
+          <Property Name="file_size" Type="int" />
+          <Property Name="download_count" Type="int" Nullable="false" />
+          <Property Name="like_count" Type="int" Nullable="false" />
+          <Property Name="apply_id" Type="int" />
+          <Property Name="publish_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="article_apply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="apply_user_id" Type="int" Nullable="false" />
+          <Property Name="apply_user_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="apply_dt" Type="datetime" Nullable="false" />
+          <Property Name="apply_status" Type="int" Nullable="false" />
+          <Property Name="admission_dt" Type="datetime" />
+          <Property Name="rejected_reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="article_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="article_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="comments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="article_like">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="article_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cmn_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="path" Type="varchar(max)" Nullable="false" />
+          <Property Name="thumbnail" Type="varchar(max)" Nullable="false" />
+          <Property Name="oss_url" Type="varchar(max)" />
+          <Property Name="oss_thumbnail_url" Type="varchar(max)" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="consultation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="patient_id" Type="int" Nullable="false" />
+          <Property Name="chief_complaint" Type="nvarchar(max)" />
+          <Property Name="present_illness_history" Type="nvarchar(max)" />
+          <Property Name="primary_diagnosis" Type="nvarchar(max)" />
+          <Property Name="treatment_plan" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+          <Property Name="modified_dt" Type="datetime" Nullable="false" />
+          <Property Name="owner_id" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="admission_dt" Type="datetime" />
+          <Property Name="rejected_reason" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="consultation_conclusion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="consultation_id" Type="int" Nullable="false" />
+          <Property Name="specialist_id" Type="int" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="conclusion" Type="nvarchar(max)" />
+          <Property Name="conclude_dt" Type="datetime" />
+          <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="consultation_resource">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="consultation_id" Type="int" Nullable="false" />
+          <Property Name="emr_id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="decision_support">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="disease_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="disease_position" Type="nvarchar" MaxLength="64" />
+          <Property Name="symptoms" Type="nvarchar(max)" />
+          <Property Name="signs" Type="nvarchar(max)" />
+          <Property Name="image_indication" Type="nvarchar(max)" />
+          <Property Name="lab_indication" Type="nvarchar(max)" />
+          <Property Name="key_point_diagnosis" Type="nvarchar(max)" />
+          <Property Name="emergency_treatment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="dic_common">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dic_common_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="dic_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dic_county">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="province_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dic_hospital">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="alias" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="province_id" Type="int" Nullable="false" />
+          <Property Name="county_id" Type="int" Nullable="false" />
+          <Property Name="longitude" Type="float" />
+          <Property Name="latitude" Type="float" />
+          <Property Name="level" Type="nvarchar" MaxLength="16" />
+          <Property Name="is_governmental" Type="int" Nullable="false" />
+          <Property Name="is_specialized" Type="int" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" />
+        </EntityType>
+        <EntityType Name="dic_live_channel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="push_url" Type="varchar" MaxLength="512" />
+          <Property Name="pull_url" Type="varchar" MaxLength="512" />
+          <Property Name="player_code" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="dic_province">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emr_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="emr_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="256" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emr_index">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="patient_id" Type="int" Nullable="false" />
+          <Property Name="type_id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="img_count" Type="int" Nullable="false" />
+          <Property Name="contents" Type="nvarchar(max)" />
+          <Property Name="contents_t" Type="nvarchar(max)" />
+          <Property Name="hospital" Type="nvarchar" MaxLength="256" />
+          <Property Name="hospital_t" Type="nvarchar" MaxLength="256" />
+          <Property Name="created_dt" Type="datetime" />
+          <Property Name="modified_dt" Type="datetime" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emr_patient">
+          <Key>
+            <PropertyRef Name="patient_id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="64" />
+          <Property Name="gender" Type="int" Nullable="false" />
+          <Property Name="birthday" Type="datetime" />
+          <Property Name="weight" Type="float" Nullable="false" />
+          <Property Name="avatar" Type="int" />
+          <Property Name="created_dt" Type="datetime" />
+          <Property Name="modified_dt" Type="datetime" />
+          <Property Name="phone" Type="nvarchar" MaxLength="32" />
+          <Property Name="emergency_contact_number" Type="nvarchar" MaxLength="32" />
+          <Property Name="diagnosis" Type="nvarchar(max)" />
+          <Property Name="occupation" Type="nvarchar(max)" />
+          <Property Name="past_history" Type="nvarchar(max)" />
+          <Property Name="personal_history" Type="nvarchar(max)" />
+          <Property Name="family_history" Type="nvarchar(max)" />
+          <Property Name="allergy_history" Type="nvarchar(max)" />
+          <Property Name="patient_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emr_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="init_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="message_sender_id" Type="int" />
+          <Property Name="message_receiver_id" Type="int" Nullable="false" />
+          <Property Name="message_sender_name" Type="nvarchar" MaxLength="256" />
+          <Property Name="message_receiver_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="sent_dt" Type="datetime" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" />
+          <Property Name="message_content" Type="nvarchar(max)" />
+          <Property Name="is_read" Type="bit" Nullable="false" />
+          <Property Name="is_deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="author_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="author_org" Type="nvarchar" MaxLength="64" />
+          <Property Name="contents" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="post_user_id" Type="int" Nullable="false" />
+          <Property Name="post_user_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="post_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="news_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="news_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="comments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="news_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="news_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="256" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patientcase">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="owner_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="gender" Type="int" Nullable="false" />
+          <Property Name="birthday" Type="datetime" />
+          <Property Name="weight" Type="nvarchar" MaxLength="50" />
+          <Property Name="height" Type="nvarchar" MaxLength="50" />
+          <Property Name="occupation" Type="nvarchar(max)" />
+          <Property Name="chief_complaint" Type="nvarchar(max)" />
+          <Property Name="present_illness_history" Type="nvarchar(max)" />
+          <Property Name="primary_diagnosis" Type="nvarchar(max)" />
+          <Property Name="treatment_plan" Type="nvarchar(max)" />
+          <Property Name="past_history" Type="nvarchar(max)" />
+          <Property Name="personal_history" Type="nvarchar(max)" />
+          <Property Name="family_history" Type="nvarchar(max)" />
+          <Property Name="allergy_history" Type="nvarchar(max)" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+          <Property Name="modified_dt" Type="datetime" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="admission_dt" Type="datetime" />
+          <Property Name="rejected_reason" Type="nvarchar(max)" />
+          <Property Name="owner_name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="patientcase_conclusion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="case_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="conclusion" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patientcase_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="case_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="256" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sms_message_queue">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="phone_number" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="contents" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="teaching_apply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="teaching_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teaching_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teaching_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="is_liv" Type="int" Nullable="false" />
+          <Property Name="teaching_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="comments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teaching_like">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="is_liv" Type="int" Nullable="false" />
+          <Property Name="teaching_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teaching_liv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="specialist_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+          <Property Name="creator_id" Type="int" Nullable="false" />
+          <Property Name="view_count" Type="int" Nullable="false" />
+          <Property Name="like_count" Type="int" Nullable="false" />
+          <Property Name="apply_count" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" />
+          <Property Name="start_dt" Type="datetime" Nullable="false" />
+          <Property Name="end_dt" Type="datetime" Nullable="false" />
+          <Property Name="apply_max" Type="int" Nullable="false" />
+          <Property Name="channel_id" Type="int" />
+          <Property Name="teacher_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_title" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_dept" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_org" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="teaching_vod">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="specialist_id" Type="int" />
+          <Property Name="category_id" Type="int" />
+          <Property Name="title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="material_id" Type="int" />
+          <Property Name="video_code" Type="nvarchar(max)" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+          <Property Name="creator_id" Type="int" Nullable="false" />
+          <Property Name="view_count" Type="int" Nullable="false" />
+          <Property Name="like_count" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" />
+          <Property Name="video_type" Type="int" Nullable="false" />
+          <Property Name="pull_url" Type="nvarchar(max)" />
+          <Property Name="teacher_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_title" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_dept" Type="nvarchar" MaxLength="64" />
+          <Property Name="teacher_org" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="user_account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="role" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+          <Property Name="mobile_number" Type="varchar" MaxLength="256" />
+          <Property Name="email" Type="varchar" MaxLength="256" />
+          <Property Name="id_number" Type="varchar" MaxLength="256" />
+          <Property Name="hospital_name" Type="nvarchar" MaxLength="256" />
+          <Property Name="department_name" Type="nvarchar" MaxLength="256" />
+          <Property Name="gender" Type="int" />
+          <Property Name="birthday" Type="datetime" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="avatar" Type="nvarchar(max)" />
+          <Property Name="user_certi_image_id" Type="int" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+          <Property Name="modified_dt" Type="datetime" />
+          <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_collect_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content_type" Type="int" />
+          <Property Name="content_id" Type="int" />
+          <Property Name="collect_dt" Type="datetime" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="user_download_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content_type" Type="int" />
+          <Property Name="content_id" Type="int" />
+          <Property Name="download_dt" Type="datetime" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="user_im">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="server_id" Type="varchar" MaxLength="256" />
+          <Property Name="token" Type="varchar" MaxLength="256" />
+          <Property Name="account" Type="varchar" MaxLength="256" />
+          <Property Name="pwd" Type="varchar" MaxLength="256" />
+          <Property Name="created_dt" Type="datetime" />
+          <Property Name="modified_dt" Type="datetime" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_share_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content_type" Type="int" />
+          <Property Name="content_id" Type="int" />
+          <Property Name="share_dt" Type="datetime" />
+          <Property Name="share_to" Type="int" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MH_Rescue_Chaoyang.dbo.article_listview”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="article_listview">
+          <Key>
+            <PropertyRef Name="apply_user_id" />
+            <PropertyRef Name="apply_dt" />
+            <PropertyRef Name="apply_status" />
+            <PropertyRef Name="apply_user_name" />
+            <PropertyRef Name="article_id" />
+            <PropertyRef Name="title" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="download_count" />
+            <PropertyRef Name="like_count" />
+            <PropertyRef Name="publish_dt" />
+          </Key>
+          <Property Name="apply_user_id" Type="int" Nullable="false" />
+          <Property Name="apply_dt" Type="datetime" Nullable="false" />
+          <Property Name="apply_status" Type="int" Nullable="false" />
+          <Property Name="admission_dt" Type="datetime" />
+          <Property Name="rejected_reason" Type="nvarchar(max)" />
+          <Property Name="apply_user_name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="article_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="keyword" Type="nvarchar" MaxLength="256" />
+          <Property Name="summary" Type="nvarchar(max)" />
+          <Property Name="author_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="author_org" Type="nvarchar" MaxLength="64" />
+          <Property Name="author_dept" Type="nvarchar" MaxLength="64" />
+          <Property Name="file_type" Type="nvarchar" MaxLength="32" />
+          <Property Name="file_path" Type="nvarchar(max)" />
+          <Property Name="file_size" Type="int" />
+          <Property Name="download_count" Type="int" Nullable="false" />
+          <Property Name="like_count" Type="int" Nullable="false" />
+          <Property Name="apply_id" Type="int" />
+          <Property Name="publish_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MH_Rescue_Chaoyang.dbo.news_imageview”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="news_imageview">
+          <Key>
+            <PropertyRef Name="news_id" />
+            <PropertyRef Name="image_id" />
+            <PropertyRef Name="path" />
+            <PropertyRef Name="thumbnail" />
+            <PropertyRef Name="sorting_no" />
+          </Key>
+          <Property Name="news_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" Nullable="false" />
+          <Property Name="path" Type="varchar(max)" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="256" />
+          <Property Name="oss_thumbnail_url" Type="varchar(max)" />
+          <Property Name="oss_url" Type="varchar(max)" />
+          <Property Name="thumbnail" Type="varchar(max)" Nullable="false" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MH_Rescue_Chaoyang.dbo.patientcase_imageview”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="patientcase_imageview">
+          <Key>
+            <PropertyRef Name="case_id" />
+            <PropertyRef Name="image_id" />
+            <PropertyRef Name="sorting_no" />
+            <PropertyRef Name="case_image_id" />
+            <PropertyRef Name="path" />
+            <PropertyRef Name="thumbnail" />
+          </Key>
+          <Property Name="case_id" Type="int" Nullable="false" />
+          <Property Name="image_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="256" />
+          <Property Name="sorting_no" Type="int" Nullable="false" />
+          <Property Name="case_image_id" Type="int" Nullable="false" />
+          <Property Name="path" Type="varchar(max)" Nullable="false" />
+          <Property Name="thumbnail" Type="varchar(max)" Nullable="false" />
+          <Property Name="oss_url" Type="varchar(max)" />
+          <Property Name="oss_thumbnail_url" Type="varchar(max)" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityContainer Name="MHRescueModelStoreContainer">
+          <EntitySet Name="article" EntityType="Self.article" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="article_apply" EntityType="Self.article_apply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="article_comments" EntityType="Self.article_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="article_like" EntityType="Self.article_like" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cmn_image" EntityType="Self.cmn_image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="consultation" EntityType="Self.consultation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="consultation_conclusion" EntityType="Self.consultation_conclusion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="consultation_resource" EntityType="Self.consultation_resource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="decision_support" EntityType="Self.decision_support" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_common" EntityType="Self.dic_common" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_common_item" EntityType="Self.dic_common_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_county" EntityType="Self.dic_county" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_hospital" EntityType="Self.dic_hospital" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_live_channel" EntityType="Self.dic_live_channel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dic_province" EntityType="Self.dic_province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emr_image" EntityType="Self.emr_image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emr_index" EntityType="Self.emr_index" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emr_patient" EntityType="Self.emr_patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emr_type" EntityType="Self.emr_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="news" EntityType="Self.news" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="news_comments" EntityType="Self.news_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="news_image" EntityType="Self.news_image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="patientcase" EntityType="Self.patientcase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="patientcase_conclusion" EntityType="Self.patientcase_conclusion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="patientcase_image" EntityType="Self.patientcase_image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sms_message_queue" EntityType="Self.sms_message_queue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_apply" EntityType="Self.teaching_apply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_category" EntityType="Self.teaching_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_comments" EntityType="Self.teaching_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_like" EntityType="Self.teaching_like" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_liv" EntityType="Self.teaching_liv" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teaching_vod" EntityType="Self.teaching_vod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_account" EntityType="Self.user_account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_collect_record" EntityType="Self.user_collect_record" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_download_record" EntityType="Self.user_download_record" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_im" EntityType="Self.user_im" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_share_record" EntityType="Self.user_share_record" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="article_listview" EntityType="Self.article_listview" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [article_listview].[apply_user_id] AS [apply_user_id], 
+    [article_listview].[apply_dt] AS [apply_dt], 
+    [article_listview].[apply_status] AS [apply_status], 
+    [article_listview].[admission_dt] AS [admission_dt], 
+    [article_listview].[rejected_reason] AS [rejected_reason], 
+    [article_listview].[apply_user_name] AS [apply_user_name], 
+    [article_listview].[article_id] AS [article_id], 
+    [article_listview].[title] AS [title], 
+    [article_listview].[type] AS [type], 
+    [article_listview].[keyword] AS [keyword], 
+    [article_listview].[summary] AS [summary], 
+    [article_listview].[author_name] AS [author_name], 
+    [article_listview].[author_org] AS [author_org], 
+    [article_listview].[author_dept] AS [author_dept], 
+    [article_listview].[file_type] AS [file_type], 
+    [article_listview].[file_path] AS [file_path], 
+    [article_listview].[file_size] AS [file_size], 
+    [article_listview].[download_count] AS [download_count], 
+    [article_listview].[like_count] AS [like_count], 
+    [article_listview].[apply_id] AS [apply_id], 
+    [article_listview].[publish_dt] AS [publish_dt]
+    FROM [dbo].[article_listview] AS [article_listview]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="news_imageview" EntityType="Self.news_imageview" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [news_imageview].[news_id] AS [news_id], 
+    [news_imageview].[image_id] AS [image_id], 
+    [news_imageview].[path] AS [path], 
+    [news_imageview].[description] AS [description], 
+    [news_imageview].[oss_thumbnail_url] AS [oss_thumbnail_url], 
+    [news_imageview].[oss_url] AS [oss_url], 
+    [news_imageview].[thumbnail] AS [thumbnail], 
+    [news_imageview].[sorting_no] AS [sorting_no]
+    FROM [dbo].[news_imageview] AS [news_imageview]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patientcase_imageview" EntityType="Self.patientcase_imageview" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [patientcase_imageview].[case_id] AS [case_id], 
+    [patientcase_imageview].[image_id] AS [image_id], 
+    [patientcase_imageview].[description] AS [description], 
+    [patientcase_imageview].[sorting_no] AS [sorting_no], 
+    [patientcase_imageview].[case_image_id] AS [case_image_id], 
+    [patientcase_imageview].[path] AS [path], 
+    [patientcase_imageview].[thumbnail] AS [thumbnail], 
+    [patientcase_imageview].[oss_url] AS [oss_url], 
+    [patientcase_imageview].[oss_thumbnail_url] AS [oss_thumbnail_url], 
+    [patientcase_imageview].[user_id] AS [user_id]
+    FROM [dbo].[patientcase_imageview] AS [patientcase_imageview]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MH.RescueModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="article">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type" Type="MH.RescueModel.ArticleType" Nullable="false" />
+          <Property Name="keyword" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="author_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="author_dept" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="author_org" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="file_type" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_size" Type="Int32" />
+          <Property Name="download_count" Type="Int32" Nullable="false" />
+          <Property Name="like_count" Type="Int32" Nullable="false" />
+          <Property Name="apply_id" Type="Int32" />
+          <NavigationProperty Name="article_comments" Relationship="MH.RescueModel.articlearticle_comments" FromRole="article" ToRole="article_comments" />
+          <NavigationProperty Name="article_like" Relationship="MH.RescueModel.articlearticle_like" FromRole="article" ToRole="article_like" />
+          <NavigationProperty Name="article_apply" Relationship="MH.RescueModel.articlearticle_apply" FromRole="article" ToRole="article_apply" />
+          <Property Name="publish_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="article_apply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="apply_user_id" Type="Int32" Nullable="false" />
+          <Property Name="apply_user_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="apply_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="apply_status" Type="MH.RescueModel.ArticleApplyStatusType" Nullable="false" />
+          <Property Name="admission_dt" Type="DateTime" Precision="3" />
+          <Property Name="rejected_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="article" Relationship="MH.RescueModel.articlearticle_apply" FromRole="article_apply" ToRole="article" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountarticle_apply" FromRole="article_apply" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="article_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="article_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="user_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="article" Relationship="MH.RescueModel.articlearticle_comments" FromRole="article_comments" ToRole="article" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountarticle_comments" FromRole="article_comments" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="article_like">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="article_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="article" Relationship="MH.RescueModel.articlearticle_like" FromRole="article_like" ToRole="article" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountarticle_like" FromRole="article_like" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="cmn_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="thumbnail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="oss_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="oss_thumbnail_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="consultation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" Nullable="false" />
+          <Property Name="chief_complaint" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="present_illness_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="primary_diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="treatment_plan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="owner_id" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="admission_dt" Type="DateTime" Precision="3" />
+          <Property Name="rejected_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="consultation_conclusion" Relationship="MH.RescueModel.consultationconsultation_conclusion" FromRole="consultation" ToRole="consultation_conclusion" />
+          <NavigationProperty Name="consultation_resource" Relationship="MH.RescueModel.consultationconsultation_resource" FromRole="consultation" ToRole="consultation_resource" />
+          <NavigationProperty Name="emr_patient" Relationship="MH.RescueModel.consultationemr_patient" FromRole="consultation" ToRole="emr_patient" />
+        </EntityType>
+        <EntityType Name="consultation_conclusion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="consultation_id" Type="Int32" Nullable="false" />
+          <Property Name="specialist_id" Type="Int32" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="conclusion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="conclude_dt" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="consultation" Relationship="MH.RescueModel.consultationconsultation_conclusion" FromRole="consultation_conclusion" ToRole="consultation" />
+        </EntityType>
+        <EntityType Name="consultation_resource">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="consultation_id" Type="Int32" Nullable="false" />
+          <Property Name="emr_id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="consultation" Relationship="MH.RescueModel.consultationconsultation_resource" FromRole="consultation_resource" ToRole="consultation" />
+          <NavigationProperty Name="emr_index" Relationship="MH.RescueModel.consultation_resourceemr_index" FromRole="consultation_resource" ToRole="emr_index" />
+        </EntityType>
+        <EntityType Name="decision_support">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="disease_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="disease_position" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="symptoms" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="signs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="image_indication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="lab_indication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="key_point_diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emergency_treatment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="dic_common">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="dic_common_item" Relationship="MH.RescueModel.dic_commondic_common_item" FromRole="dic_common" ToRole="dic_common_item" />
+        </EntityType>
+        <EntityType Name="dic_common_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="dic_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="dic_common" Relationship="MH.RescueModel.dic_commondic_common_item" FromRole="dic_common_item" ToRole="dic_common" />
+        </EntityType>
+        <EntityType Name="dic_county">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="province_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="dic_province" Relationship="MH.RescueModel.dic_provincedic_county" FromRole="dic_county" ToRole="dic_province" />
+        </EntityType>
+        <EntityType Name="dic_hospital">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="alias" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="longitude" Type="Double" />
+          <Property Name="latitude" Type="Double" />
+          <Property Name="level" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="is_governmental" Type="MH.RescueModel.YesNoType" Nullable="false" />
+          <Property Name="is_specialized" Type="MH.RescueModel.YesNoType" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.dic_hospitalcmn_image" FromRole="dic_hospital" ToRole="cmn_image" />
+          <Property Name="province_id" Type="Int32" Nullable="false" />
+          <Property Name="county_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="dic_province" Relationship="MH.RescueModel.dic_hospitaldic_province" FromRole="dic_hospital" ToRole="dic_province" />
+          <NavigationProperty Name="dic_county" Relationship="MH.RescueModel.dic_countydic_hospital" FromRole="dic_hospital" ToRole="dic_county" />
+        </EntityType>
+        <EntityType Name="dic_live_channel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="push_url" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="pull_url" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="player_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="dic_province">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="dic_county" Relationship="MH.RescueModel.dic_provincedic_county" FromRole="dic_province" ToRole="dic_county" />
+        </EntityType>
+        <EntityType Name="emr_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="emr_id" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="emr_index" Relationship="MH.RescueModel.emr_indexemr_image" FromRole="emr_image" ToRole="emr_index" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.emr_imagecmn_image" FromRole="emr_image" ToRole="cmn_image" />
+        </EntityType>
+        <EntityType Name="emr_index">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="patient_id" Type="Int32" Nullable="false" />
+          <Property Name="type_id" Type="Int32" Nullable="false" />
+          <Property Name="type_name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="img_count" Type="Int32" Nullable="false" />
+          <Property Name="contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contents_t" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="hospital" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="hospital_t" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="emr_type" Relationship="MH.RescueModel.emr_typeemr_index" FromRole="emr_index" ToRole="emr_type" />
+          <NavigationProperty Name="consultation_resource" Relationship="MH.RescueModel.consultation_resourceemr_index" FromRole="emr_index" ToRole="consultation_resource" />
+          <NavigationProperty Name="emr_patient" Relationship="MH.RescueModel.emr_indexemr_patient" FromRole="emr_index" ToRole="emr_patient" />
+          <NavigationProperty Name="emr_image" Relationship="MH.RescueModel.emr_indexemr_image" FromRole="emr_index" ToRole="emr_image" />
+        </EntityType>
+        <EntityType Name="emr_patient">
+          <Key>
+            <PropertyRef Name="patient_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="MH.RescueModel.GenderType" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Precision="3" />
+          <Property Name="weight" Type="Double" Nullable="false" />
+          <Property Name="avatar" Type="Int32" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Precision="3" />
+          <Property Name="phone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="emergency_contact_number" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="past_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="personal_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="family_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="allergy_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="patient_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="emr_index" Relationship="MH.RescueModel.emr_indexemr_patient" FromRole="emr_patient" ToRole="emr_index" />
+          <NavigationProperty Name="consultation" Relationship="MH.RescueModel.consultationemr_patient" FromRole="emr_patient" ToRole="consultation" />
+        </EntityType>
+        <EntityType Name="emr_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="init_no" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="emr_index" Relationship="MH.RescueModel.emr_typeemr_index" FromRole="emr_type" ToRole="emr_index" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="message_sender_id" Type="Int32" />
+          <Property Name="message_receiver_id" Type="Int32" Nullable="false" />
+          <Property Name="message_sender_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="message_receiver_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sent_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="message_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="is_read" Type="Boolean" Nullable="false" />
+          <Property Name="is_deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="send_user" Relationship="MH.RescueModel.user_accountmessage" FromRole="message" ToRole="user_account" />
+          <NavigationProperty Name="receive_user" Relationship="MH.RescueModel.user_accountmessage1" FromRole="message" ToRole="user_account" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="news">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="author_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="author_org" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="contents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="post_user_id" Type="Int32" Nullable="false" />
+          <Property Name="post_user_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="post_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="news_comments" Relationship="MH.RescueModel.newsnews_comments" FromRole="news" ToRole="news_comments" />
+          <NavigationProperty Name="news_image" Relationship="MH.RescueModel.newsnews_image" FromRole="news" ToRole="news_image" />
+        </EntityType>
+        <EntityType Name="news_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="news_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="user_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="news" Relationship="MH.RescueModel.newsnews_comments" FromRole="news_comments" ToRole="news" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountnews_comments" FromRole="news_comments" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="news_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="image_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="news_id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="news" Relationship="MH.RescueModel.newsnews_image" FromRole="news_image" ToRole="news" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.cmn_imagenews_image" FromRole="news_image" ToRole="cmn_image" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sms_message_queue">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="phone_number" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contents" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="teaching_apply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="teaching_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="teaching_liv" Relationship="MH.RescueModel.teaching_livteaching_apply" FromRole="teaching_apply" ToRole="teaching_liv" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountteaching_apply" FromRole="teaching_apply" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="teaching_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teaching_comments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="teaching_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="is_liv" Type="Int32" Nullable="false" />
+          <Property Name="user_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountteaching_comments" FromRole="teaching_comments" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="teaching_like">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="teaching_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="is_liv" Type="MH.RescueModel.YesNoType" Nullable="false" />
+          <Property Name="user_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="teaching_liv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="specialist_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="creator_id" Type="Int32" Nullable="false" />
+          <Property Name="view_count" Type="Int32" Nullable="false" />
+          <Property Name="like_count" Type="Int32" Nullable="false" />
+          <Property Name="apply_count" Type="Int32" Nullable="false" />
+          <Property Name="start_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="apply_max" Type="Int32" Nullable="false" />
+          <Property Name="channel_id" Type="Int32" />
+          <Property Name="teacher_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_title" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_dept" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_org" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="dic_live_channel" Relationship="MH.RescueModel.dic_live_channelteaching_liv" FromRole="teaching_liv" ToRole="dic_live_channel" />
+          <NavigationProperty Name="teaching_apply" Relationship="MH.RescueModel.teaching_livteaching_apply" FromRole="teaching_liv" ToRole="teaching_apply" />
+          <NavigationProperty Name="create_user" Relationship="MH.RescueModel.user_accountteaching_liv" FromRole="teaching_liv" ToRole="user_account" />
+          <Property Name="image_id" Type="Int32" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.cmn_imageteaching_liv" FromRole="teaching_liv" ToRole="cmn_image" />
+          <NavigationProperty Name="specialist_user" Relationship="MH.RescueModel.user_accountteaching_liv1" FromRole="teaching_liv" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="teaching_vod">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="specialist_id" Type="Int32" />
+          <Property Name="category_id" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="material_id" Type="Int32" />
+          <Property Name="video_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="creator_id" Type="Int32" Nullable="false" />
+          <Property Name="view_count" Type="Int32" Nullable="false" />
+          <Property Name="like_count" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" />
+          <Property Name="video_type" Type="MH.RescueModel.VodVideoType" Nullable="false" />
+          <Property Name="pull_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_title" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_dept" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="teacher_org" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="teaching_category" Relationship="MH.RescueModel.teaching_categoryteaching_vod" FromRole="teaching_vod" ToRole="teaching_category" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.cmn_imageteaching_vod" FromRole="teaching_vod" ToRole="cmn_image" />
+          <NavigationProperty Name="specialist_user" Relationship="MH.RescueModel.user_accountteaching_vod" FromRole="teaching_vod" ToRole="user_account" />
+          <NavigationProperty Name="create_user" Relationship="MH.RescueModel.user_accountteaching_vod1" FromRole="teaching_vod" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="user_account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="account" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="role" Type="MH.RescueModel.UserRoleType" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="mobile_number" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Precision="3" />
+          <Property Name="hospital_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="id_number" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="department_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="MH.RescueModel.GenderType" />
+          <Property Name="birthday" Type="DateTime" Precision="3" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="MH.RescueModel.UserStatusType" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_collect_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content_type" Type="MH.RescueModel.ContentType" />
+          <Property Name="content_id" Type="Int32" />
+          <Property Name="collect_dt" Type="DateTime" Precision="3" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountuser_collect_record" FromRole="user_collect_record" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="user_download_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content_type" Type="MH.RescueModel.ContentType" />
+          <Property Name="content_id" Type="Int32" />
+          <Property Name="download_dt" Type="DateTime" Precision="3" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountuser_download_record" FromRole="user_download_record" ToRole="user_account" />
+        </EntityType>
+        <EntityType Name="user_im">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="server_id" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="token" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="account" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="pwd" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="created_dt" Type="DateTime" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="user_share_record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content_type" Type="MH.RescueModel.ContentType" />
+          <Property Name="content_id" Type="Int32" />
+          <Property Name="share_dt" Type="DateTime" Precision="3" />
+          <Property Name="share_to" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountuser_share_record" FromRole="user_share_record" ToRole="user_account" />
+        </EntityType>
+        <EntityContainer Name="RescueEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="article" EntityType="Self.article" />
+          <EntitySet Name="article_apply" EntityType="Self.article_apply" />
+          <EntitySet Name="article_comments" EntityType="Self.article_comments" />
+          <EntitySet Name="article_like" EntityType="Self.article_like" />
+          <EntitySet Name="cmn_image" EntityType="Self.cmn_image" />
+          <EntitySet Name="consultation" EntityType="Self.consultation" />
+          <EntitySet Name="consultation_conclusion" EntityType="Self.consultation_conclusion" />
+          <EntitySet Name="consultation_resource" EntityType="Self.consultation_resource" />
+          <EntitySet Name="decision_support" EntityType="Self.decision_support" />
+          <EntitySet Name="dic_common" EntityType="Self.dic_common" />
+          <EntitySet Name="dic_common_item" EntityType="Self.dic_common_item" />
+          <EntitySet Name="dic_county" EntityType="Self.dic_county" />
+          <EntitySet Name="dic_hospital" EntityType="Self.dic_hospital" />
+          <EntitySet Name="dic_live_channel" EntityType="Self.dic_live_channel" />
+          <EntitySet Name="dic_province" EntityType="Self.dic_province" />
+          <EntitySet Name="emr_image" EntityType="Self.emr_image" />
+          <EntitySet Name="emr_index" EntityType="Self.emr_index" />
+          <EntitySet Name="emr_patient" EntityType="Self.emr_patient" />
+          <EntitySet Name="emr_type" EntityType="Self.emr_type" />
+          <EntitySet Name="message" EntityType="Self.message" />
+          <EntitySet Name="news" EntityType="Self.news" />
+          <EntitySet Name="news_comments" EntityType="Self.news_comments" />
+          <EntitySet Name="news_image" EntityType="Self.news_image" />
+          <EntitySet Name="sms_message_queue" EntityType="Self.sms_message_queue" />
+          <EntitySet Name="teaching_apply" EntityType="Self.teaching_apply" />
+          <EntitySet Name="teaching_category" EntityType="Self.teaching_category" />
+          <EntitySet Name="teaching_comments" EntityType="Self.teaching_comments" />
+          <EntitySet Name="teaching_like" EntityType="Self.teaching_like" />
+          <EntitySet Name="teaching_liv" EntityType="Self.teaching_liv" />
+          <EntitySet Name="teaching_vod" EntityType="Self.teaching_vod" />
+          <EntitySet Name="user_account" EntityType="Self.user_account" />
+          <EntitySet Name="user_collect_record" EntityType="Self.user_collect_record" />
+          <EntitySet Name="user_download_record" EntityType="Self.user_download_record" />
+          <EntitySet Name="user_im" EntityType="Self.user_im" />
+          <EntitySet Name="user_share_record" EntityType="Self.user_share_record" />
+          <AssociationSet Name="articlearticle_comments" Association="MH.RescueModel.articlearticle_comments">
+            <End Role="article" EntitySet="article" />
+            <End Role="article_comments" EntitySet="article_comments" />
+          </AssociationSet>
+          <AssociationSet Name="articlearticle_like" Association="MH.RescueModel.articlearticle_like">
+            <End Role="article" EntitySet="article" />
+            <End Role="article_like" EntitySet="article_like" />
+          </AssociationSet>
+          <AssociationSet Name="articlearticle_apply" Association="MH.RescueModel.articlearticle_apply">
+            <End Role="article" EntitySet="article" />
+            <End Role="article_apply" EntitySet="article_apply" />
+          </AssociationSet>
+          <AssociationSet Name="consultationconsultation_conclusion" Association="MH.RescueModel.consultationconsultation_conclusion">
+            <End Role="consultation" EntitySet="consultation" />
+            <End Role="consultation_conclusion" EntitySet="consultation_conclusion" />
+          </AssociationSet>
+          <AssociationSet Name="consultationconsultation_resource" Association="MH.RescueModel.consultationconsultation_resource">
+            <End Role="consultation" EntitySet="consultation" />
+            <End Role="consultation_resource" EntitySet="consultation_resource" />
+          </AssociationSet>
+          <AssociationSet Name="emr_typeemr_index" Association="MH.RescueModel.emr_typeemr_index">
+            <End Role="emr_type" EntitySet="emr_type" />
+            <End Role="emr_index" EntitySet="emr_index" />
+          </AssociationSet>
+          <AssociationSet Name="consultation_resourceemr_index" Association="MH.RescueModel.consultation_resourceemr_index">
+            <End Role="consultation_resource" EntitySet="consultation_resource" />
+            <End Role="emr_index" EntitySet="emr_index" />
+          </AssociationSet>
+          <AssociationSet Name="emr_indexemr_patient" Association="MH.RescueModel.emr_indexemr_patient">
+            <End Role="emr_index" EntitySet="emr_index" />
+            <End Role="emr_patient" EntitySet="emr_patient" />
+          </AssociationSet>
+          <AssociationSet Name="emr_indexemr_image" Association="MH.RescueModel.emr_indexemr_image">
+            <End Role="emr_index" EntitySet="emr_index" />
+            <End Role="emr_image" EntitySet="emr_image" />
+          </AssociationSet>
+          <AssociationSet Name="emr_imagecmn_image" Association="MH.RescueModel.emr_imagecmn_image">
+            <End Role="emr_image" EntitySet="emr_image" />
+            <End Role="cmn_image" EntitySet="cmn_image" />
+          </AssociationSet>
+          <AssociationSet Name="newsnews_comments" Association="MH.RescueModel.newsnews_comments">
+            <End Role="news" EntitySet="news" />
+            <End Role="news_comments" EntitySet="news_comments" />
+          </AssociationSet>
+          <AssociationSet Name="newsnews_image" Association="MH.RescueModel.newsnews_image">
+            <End Role="news" EntitySet="news" />
+            <End Role="news_image" EntitySet="news_image" />
+          </AssociationSet>
+          <AssociationSet Name="cmn_imagenews_image" Association="MH.RescueModel.cmn_imagenews_image">
+            <End Role="cmn_image" EntitySet="cmn_image" />
+            <End Role="news_image" EntitySet="news_image" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountarticle_apply" Association="MH.RescueModel.user_accountarticle_apply">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="article_apply" EntitySet="article_apply" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountarticle_comments" Association="MH.RescueModel.user_accountarticle_comments">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="article_comments" EntitySet="article_comments" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountarticle_like" Association="MH.RescueModel.user_accountarticle_like">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="article_like" EntitySet="article_like" />
+          </AssociationSet>
+          <AssociationSet Name="consultationemr_patient" Association="MH.RescueModel.consultationemr_patient">
+            <End Role="consultation" EntitySet="consultation" />
+            <End Role="emr_patient" EntitySet="emr_patient" />
+          </AssociationSet>
+          <AssociationSet Name="dic_hospitalcmn_image" Association="MH.RescueModel.dic_hospitalcmn_image">
+            <End Role="dic_hospital" EntitySet="dic_hospital" />
+            <End Role="cmn_image" EntitySet="cmn_image" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountuser_share_record" Association="MH.RescueModel.user_accountuser_share_record">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="user_share_record" EntitySet="user_share_record" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountuser_download_record" Association="MH.RescueModel.user_accountuser_download_record">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="user_download_record" EntitySet="user_download_record" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountuser_collect_record" Association="MH.RescueModel.user_accountuser_collect_record">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="user_collect_record" EntitySet="user_collect_record" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountmessage" Association="MH.RescueModel.user_accountmessage">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountmessage1" Association="MH.RescueModel.user_accountmessage1">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="dic_commondic_common_item" Association="MH.RescueModel.dic_commondic_common_item">
+            <End Role="dic_common" EntitySet="dic_common" />
+            <End Role="dic_common_item" EntitySet="dic_common_item" />
+          </AssociationSet>
+          <AssociationSet Name="dic_provincedic_county" Association="MH.RescueModel.dic_provincedic_county">
+            <End Role="dic_province" EntitySet="dic_province" />
+            <End Role="dic_county" EntitySet="dic_county" />
+          </AssociationSet>
+          <AssociationSet Name="dic_hospitaldic_province" Association="MH.RescueModel.dic_hospitaldic_province">
+            <End Role="dic_hospital" EntitySet="dic_hospital" />
+            <End Role="dic_province" EntitySet="dic_province" />
+          </AssociationSet>
+          <AssociationSet Name="dic_countydic_hospital" Association="MH.RescueModel.dic_countydic_hospital">
+            <End Role="dic_county" EntitySet="dic_county" />
+            <End Role="dic_hospital" EntitySet="dic_hospital" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_categoryteaching_vod" Association="MH.RescueModel.teaching_categoryteaching_vod">
+            <End Role="teaching_category" EntitySet="teaching_category" />
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+          </AssociationSet>
+          <AssociationSet Name="dic_live_channelteaching_liv" Association="MH.RescueModel.dic_live_channelteaching_liv">
+            <End Role="dic_live_channel" EntitySet="dic_live_channel" />
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_livteaching_apply" Association="MH.RescueModel.teaching_livteaching_apply">
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+            <End Role="teaching_apply" EntitySet="teaching_apply" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_livteaching_like" Association="MH.RescueModel.teaching_livteaching_like">
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+            <End Role="teaching_like" EntitySet="teaching_like" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_livteaching_comments" Association="MH.RescueModel.teaching_livteaching_comments">
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+            <End Role="teaching_comments" EntitySet="teaching_comments" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_vodteaching_like" Association="MH.RescueModel.teaching_vodteaching_like">
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+            <End Role="teaching_like" EntitySet="teaching_like" />
+          </AssociationSet>
+          <AssociationSet Name="teaching_vodteaching_comments" Association="MH.RescueModel.teaching_vodteaching_comments">
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+            <End Role="teaching_comments" EntitySet="teaching_comments" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_liv" Association="MH.RescueModel.user_accountteaching_liv">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+          </AssociationSet>
+          <AssociationSet Name="cmn_imageteaching_liv" Association="MH.RescueModel.cmn_imageteaching_liv">
+            <End Role="cmn_image" EntitySet="cmn_image" />
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_liv1" Association="MH.RescueModel.user_accountteaching_liv1">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_liv" EntitySet="teaching_liv" />
+          </AssociationSet>
+          <AssociationSet Name="cmn_imageteaching_vod" Association="MH.RescueModel.cmn_imageteaching_vod">
+            <End Role="cmn_image" EntitySet="cmn_image" />
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_vod" Association="MH.RescueModel.user_accountteaching_vod">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_vod1" Association="MH.RescueModel.user_accountteaching_vod1">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountnews_comments" Association="MH.RescueModel.user_accountnews_comments">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="news_comments" EntitySet="news_comments" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_comments" Association="MH.RescueModel.user_accountteaching_comments">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_comments" EntitySet="teaching_comments" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_apply" Association="MH.RescueModel.user_accountteaching_apply">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_apply" EntitySet="teaching_apply" />
+          </AssociationSet>
+          <EntitySet Name="patientcase" EntityType="MH.RescueModel.patientcase" />
+          <EntitySet Name="patientcase_conclusion" EntityType="MH.RescueModel.patientcase_conclusion" />
+          <EntitySet Name="patientcase_image" EntityType="MH.RescueModel.patientcase_image" />
+          <AssociationSet Name="patientcasepatientcase_conclusion" Association="MH.RescueModel.patientcasepatientcase_conclusion">
+            <End Role="patientcase" EntitySet="patientcase" />
+            <End Role="patientcase_conclusion" EntitySet="patientcase_conclusion" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountpatientcase_conclusion" Association="MH.RescueModel.user_accountpatientcase_conclusion">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="patientcase_conclusion" EntitySet="patientcase_conclusion" />
+          </AssociationSet>
+          <AssociationSet Name="patientcasepatientcase_image" Association="MH.RescueModel.patientcasepatientcase_image">
+            <End EntitySet="patientcase" Role="patientcase" />
+            <End EntitySet="patientcase_image" Role="patientcase_image" />
+          </AssociationSet>
+          <AssociationSet Name="cmn_imagepatientcase_image" Association="MH.RescueModel.cmn_imagepatientcase_image">
+            <End Role="cmn_image" EntitySet="cmn_image" />
+            <End Role="patientcase_image" EntitySet="patientcase_image" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountpatientcase" Association="MH.RescueModel.user_accountpatientcase">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="patientcase" EntitySet="patientcase" />
+          </AssociationSet>
+          <AssociationSet Name="user_accountteaching_vod2" Association="MH.RescueModel.user_accountteaching_vod2">
+            <End Role="user_account" EntitySet="user_account" />
+            <End Role="teaching_vod" EntitySet="teaching_vod" />
+          </AssociationSet>
+          <EntitySet Name="article_listview" EntityType="MH.RescueModel.article_listview" />
+          <EntitySet Name="patientcase_imageview" EntityType="MH.RescueModel.patientcase_imageview" />
+          <EntitySet Name="news_imageview" EntityType="MH.RescueModel.news_imageview" />
+        </EntityContainer>
+        <EnumType Name="ArticleType" a:ExternalTypeName="MH.Rescue.BIZ.ArticleType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="GenderType" a:ExternalTypeName="MH.Rescue.BIZ.GenderType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="VodVideoType" a:ExternalTypeName="VodVideoType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="UserRoleType" a:ExternalTypeName="MH.Rescue.BIZ.UserRoleType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="ArticleApplyStatusType" a:ExternalTypeName="MH.Rescue.BIZ.ArticleApplyStatusType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="ContentType" a:ExternalTypeName="ContentType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="ShareType" a:ExternalTypeName="MH.Rescue.BIZ.ShareType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="MessageReadType" a:ExternalTypeName="MH.Rescue.BIZ.MessageReadType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="MessageDeletedType" a:ExternalTypeName="MH.Rescue.BIZ.MessageDeletedType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <Association Name="articlearticle_comments">
+          <End Type="MH.RescueModel.article" Role="article" Multiplicity="1" />
+          <End Type="MH.RescueModel.article_comments" Role="article_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="article">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article_comments">
+              <PropertyRef Name="article_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="articlearticle_like">
+          <End Type="MH.RescueModel.article" Role="article" Multiplicity="1" />
+          <End Type="MH.RescueModel.article_like" Role="article_like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="article">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article_like">
+              <PropertyRef Name="article_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="articlearticle_apply">
+          <End Type="MH.RescueModel.article" Role="article" Multiplicity="*" />
+          <End Type="MH.RescueModel.article_apply" Role="article_apply" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="article_apply">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article">
+              <PropertyRef Name="apply_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consultationconsultation_conclusion">
+          <End Type="MH.RescueModel.consultation" Role="consultation" Multiplicity="1" />
+          <End Type="MH.RescueModel.consultation_conclusion" Role="consultation_conclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="consultation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="consultation_conclusion">
+              <PropertyRef Name="consultation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consultationconsultation_resource">
+          <End Type="MH.RescueModel.consultation" Role="consultation" Multiplicity="1" />
+          <End Type="MH.RescueModel.consultation_resource" Role="consultation_resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="consultation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="consultation_resource">
+              <PropertyRef Name="consultation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="emr_typeemr_index">
+          <End Type="MH.RescueModel.emr_type" Role="emr_type" Multiplicity="1" />
+          <End Type="MH.RescueModel.emr_index" Role="emr_index" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emr_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="emr_index">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consultation_resourceemr_index">
+          <End Type="MH.RescueModel.consultation_resource" Role="consultation_resource" Multiplicity="*" />
+          <End Type="MH.RescueModel.emr_index" Role="emr_index" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="emr_index">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="consultation_resource">
+              <PropertyRef Name="emr_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="emr_indexemr_patient">
+          <End Type="MH.RescueModel.emr_index" Role="emr_index" Multiplicity="*" />
+          <End Type="MH.RescueModel.emr_patient" Role="emr_patient" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="emr_patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="emr_index">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="emr_indexemr_image">
+          <End Type="MH.RescueModel.emr_index" Role="emr_index" Multiplicity="1" />
+          <End Type="MH.RescueModel.emr_image" Role="emr_image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emr_index">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="emr_image">
+              <PropertyRef Name="emr_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="emr_imagecmn_image">
+          <End Type="MH.RescueModel.emr_image" Role="emr_image" Multiplicity="*" />
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="emr_image">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="newsnews_comments">
+          <End Type="MH.RescueModel.news" Role="news" Multiplicity="1" />
+          <End Type="MH.RescueModel.news_comments" Role="news_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="news">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="news_comments">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="newsnews_image">
+          <End Type="MH.RescueModel.news" Role="news" Multiplicity="1" />
+          <End Type="MH.RescueModel.news_image" Role="news_image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="news">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="news_image">
+              <PropertyRef Name="news_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmn_imagenews_image">
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="1" />
+          <End Type="MH.RescueModel.news_image" Role="news_image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="news_image">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountarticle_apply">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.article_apply" Role="article_apply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article_apply">
+              <PropertyRef Name="apply_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountarticle_comments">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.article_comments" Role="article_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article_comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountarticle_like">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.article_like" Role="article_like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article_like">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consultationemr_patient">
+          <End Type="MH.RescueModel.consultation" Role="consultation" Multiplicity="*" />
+          <End Type="MH.RescueModel.emr_patient" Role="emr_patient" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="emr_patient">
+              <PropertyRef Name="patient_id" />
+            </Principal>
+            <Dependent Role="consultation">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_hospitalcmn_image">
+          <End Type="MH.RescueModel.dic_hospital" Role="dic_hospital" Multiplicity="*" />
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dic_hospital">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountuser_share_record">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.user_share_record" Role="user_share_record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_share_record">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountuser_download_record">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.user_download_record" Role="user_download_record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_download_record">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountuser_collect_record">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.user_collect_record" Role="user_collect_record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_collect_record">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountmessage">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="message_sender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountmessage1">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="message_receiver_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_commondic_common_item">
+          <End Type="MH.RescueModel.dic_common" Role="dic_common" Multiplicity="1" />
+          <End Type="MH.RescueModel.dic_common_item" Role="dic_common_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dic_common">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dic_common_item">
+              <PropertyRef Name="dic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_provincedic_county">
+          <End Type="MH.RescueModel.dic_province" Role="dic_province" Multiplicity="1" />
+          <End Type="MH.RescueModel.dic_county" Role="dic_county" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dic_province">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dic_county">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_hospitaldic_province">
+          <End Type="MH.RescueModel.dic_hospital" Role="dic_hospital" Multiplicity="*" />
+          <End Type="MH.RescueModel.dic_province" Role="dic_province" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="dic_province">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dic_hospital">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_countydic_hospital">
+          <End Type="MH.RescueModel.dic_county" Role="dic_county" Multiplicity="1" />
+          <End Type="MH.RescueModel.dic_hospital" Role="dic_hospital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dic_county">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="dic_hospital">
+              <PropertyRef Name="county_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_categoryteaching_vod">
+          <End Type="MH.RescueModel.teaching_category" Role="teaching_category" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_vod">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="dic_live_channelteaching_liv">
+          <End Type="MH.RescueModel.dic_live_channel" Role="dic_live_channel" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dic_live_channel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_liv">
+              <PropertyRef Name="channel_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_livteaching_apply">
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_apply" Role="teaching_apply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_liv">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_apply">
+              <PropertyRef Name="teaching_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_livteaching_like">
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_like" Role="teaching_like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_liv">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_like">
+              <PropertyRef Name="teaching_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_livteaching_comments">
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_comments" Role="teaching_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_liv">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_comments">
+              <PropertyRef Name="teaching_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_vodteaching_like">
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_like" Role="teaching_like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_vod">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_like">
+              <PropertyRef Name="teaching_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teaching_vodteaching_comments">
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_comments" Role="teaching_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teaching_vod">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_comments">
+              <PropertyRef Name="teaching_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="YesNoType" a:ExternalTypeName="YesNoType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <Association Name="user_accountteaching_liv">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_liv">
+              <PropertyRef Name="creator_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmn_imageteaching_liv">
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_liv">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountteaching_liv1">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_liv" Role="teaching_liv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_liv">
+              <PropertyRef Name="specialist_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmn_imageteaching_vod">
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_vod">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountteaching_vod">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_vod">
+              <PropertyRef Name="specialist_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountteaching_vod1">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_vod">
+              <PropertyRef Name="creator_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountnews_comments">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.news_comments" Role="news_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="news_comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountteaching_comments">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_comments" Role="teaching_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_comments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountteaching_apply">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.teaching_apply" Role="teaching_apply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_apply">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="patientcase">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="owner_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="MH.RescueModel.GenderType" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Precision="3" />
+          <Property Name="weight" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="height" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="chief_complaint" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="present_illness_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="primary_diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="treatment_plan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="past_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="personal_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="family_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="allergy_history" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modified_dt" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="MH.RescueModel.PatientCaseStatusType" Nullable="false" />
+          <Property Name="admission_dt" Type="DateTime" Precision="3" />
+          <Property Name="rejected_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patientcase_conclusion" Relationship="MH.RescueModel.patientcasepatientcase_conclusion" FromRole="patientcase" ToRole="patientcase_conclusion" />
+          <NavigationProperty Name="patientcase_image" Relationship="MH.RescueModel.patientcasepatientcase_image" FromRole="patientcase" ToRole="patientcase_image" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="owner" Relationship="MH.RescueModel.user_accountpatientcase" FromRole="patientcase" ToRole="user_account" />
+          <Property Name="owner_name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="patientcase_conclusion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="case_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="conclusion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="patientcase" Relationship="MH.RescueModel.patientcasepatientcase_conclusion" FromRole="patientcase_conclusion" ToRole="patientcase" />
+          <NavigationProperty Name="user_account" Relationship="MH.RescueModel.user_accountpatientcase_conclusion" FromRole="patientcase_conclusion" ToRole="user_account" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="patientcase_image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="case_id" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="patientcase" Relationship="MH.RescueModel.patientcasepatientcase_image" FromRole="patientcase_image" ToRole="patientcase" />
+          <NavigationProperty Name="cmn_image" Relationship="MH.RescueModel.cmn_imagepatientcase_image" FromRole="patientcase_image" ToRole="cmn_image" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="patientcasepatientcase_conclusion">
+          <End Type="MH.RescueModel.patientcase" Role="patientcase" Multiplicity="1" />
+          <End Type="MH.RescueModel.patientcase_conclusion" Role="patientcase_conclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patientcase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patientcase_conclusion">
+              <PropertyRef Name="case_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountpatientcase_conclusion">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.patientcase_conclusion" Role="patientcase_conclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patientcase_conclusion">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patientcasepatientcase_image">
+          <End Type="MH.RescueModel.patientcase" Multiplicity="1" Role="patientcase" />
+          <End Type="MH.RescueModel.patientcase_image" Multiplicity="*" Role="patientcase_image" />
+          <ReferentialConstraint>
+            <Principal Role="patientcase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patientcase_image">
+              <PropertyRef Name="case_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cmn_imagepatientcase_image">
+          <End Type="MH.RescueModel.cmn_image" Role="cmn_image" Multiplicity="1" />
+          <End Type="MH.RescueModel.patientcase_image" Role="patientcase_image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cmn_image">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patientcase_image">
+              <PropertyRef Name="image_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_accountpatientcase">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="1" />
+          <End Type="MH.RescueModel.patientcase" Role="patientcase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patientcase">
+              <PropertyRef Name="owner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EnumType Name="PatientCaseStatusType" a:ExternalTypeName="PatientCaseStatusType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="UserStatusType" a:ExternalTypeName="UserStatusType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <Association Name="user_accountteaching_vod2">
+          <End Type="MH.RescueModel.user_account" Role="user_account" Multiplicity="0..1" />
+          <End Type="MH.RescueModel.teaching_vod" Role="teaching_vod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_account">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teaching_vod">
+              <PropertyRef Name="specialist_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="article_listview">
+          <Key>
+            <PropertyRef Name="apply_user_id" />
+            <PropertyRef Name="apply_dt" />
+            <PropertyRef Name="apply_status" />
+            <PropertyRef Name="apply_user_name" />
+            <PropertyRef Name="article_id" />
+            <PropertyRef Name="title" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="download_count" />
+            <PropertyRef Name="like_count" />
+            <PropertyRef Name="publish_dt" />
+          </Key>
+          <Property Name="apply_user_id" Type="Int32" Nullable="false" />
+          <Property Name="apply_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="apply_status" Type="Int32" Nullable="false" />
+          <Property Name="admission_dt" Type="DateTime" Precision="3" />
+          <Property Name="rejected_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="apply_user_name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="article_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="keyword" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="author_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="author_org" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="author_dept" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="file_type" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="file_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="file_size" Type="Int32" />
+          <Property Name="download_count" Type="Int32" Nullable="false" />
+          <Property Name="like_count" Type="Int32" Nullable="false" />
+          <Property Name="apply_id" Type="Int32" />
+          <Property Name="publish_dt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="patientcase_imageview">
+          <Key>
+            <PropertyRef Name="case_id" />
+            <PropertyRef Name="image_id" />
+            <PropertyRef Name="sorting_no" />
+            <PropertyRef Name="case_image_id" />
+            <PropertyRef Name="path" />
+            <PropertyRef Name="thumbnail" />
+          </Key>
+          <Property Name="case_id" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+          <Property Name="case_image_id" Type="Int32" Nullable="false" />
+          <Property Name="path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="thumbnail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="oss_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="oss_thumbnail_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="news_imageview">
+          <Key>
+            <PropertyRef Name="news_id" />
+            <PropertyRef Name="image_id" />
+            <PropertyRef Name="path" />
+            <PropertyRef Name="thumbnail" />
+            <PropertyRef Name="sorting_no" />
+          </Key>
+          <Property Name="news_id" Type="Int32" Nullable="false" />
+          <Property Name="image_id" Type="Int32" Nullable="false" />
+          <Property Name="path" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="oss_thumbnail_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="oss_url" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="thumbnail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sorting_no" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MHRescueModelStoreContainer" CdmEntityContainer="RescueEntities">
+          <EntitySetMapping Name="article">
+            <EntityTypeMapping TypeName="MH.RescueModel.article">
+              <MappingFragment StoreEntitySet="article">
+                <ScalarProperty Name="summary" ColumnName="summary" />
+                <ScalarProperty Name="publish_dt" ColumnName="publish_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="keyword" ColumnName="keyword" />
+                <ScalarProperty Name="author_name" ColumnName="author_name" />
+                <ScalarProperty Name="author_dept" ColumnName="author_dept" />
+                <ScalarProperty Name="author_org" ColumnName="author_org" />
+                <ScalarProperty Name="file_type" ColumnName="file_type" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_size" ColumnName="file_size" />
+                <ScalarProperty Name="download_count" ColumnName="download_count" />
+                <ScalarProperty Name="like_count" ColumnName="like_count" />
+                <ScalarProperty Name="apply_id" ColumnName="apply_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="article_apply">
+            <EntityTypeMapping TypeName="MH.RescueModel.article_apply">
+              <MappingFragment StoreEntitySet="article_apply">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="apply_user_id" ColumnName="apply_user_id" />
+                <ScalarProperty Name="apply_user_name" ColumnName="apply_user_name" />
+                <ScalarProperty Name="apply_dt" ColumnName="apply_dt" />
+                <ScalarProperty Name="apply_status" ColumnName="apply_status" />
+                <ScalarProperty Name="admission_dt" ColumnName="admission_dt" />
+                <ScalarProperty Name="rejected_reason" ColumnName="rejected_reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="article_comments">
+            <EntityTypeMapping TypeName="MH.RescueModel.article_comments">
+              <MappingFragment StoreEntitySet="article_comments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="article_id" ColumnName="article_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="article_like">
+            <EntityTypeMapping TypeName="MH.RescueModel.article_like">
+              <MappingFragment StoreEntitySet="article_like">
+                <ScalarProperty Name="article_id" ColumnName="article_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cmn_image">
+            <EntityTypeMapping TypeName="MH.RescueModel.cmn_image">
+              <MappingFragment StoreEntitySet="cmn_image">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="oss_url" ColumnName="oss_url" />
+                <ScalarProperty Name="oss_thumbnail_url" ColumnName="oss_thumbnail_url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="consultation">
+            <EntityTypeMapping TypeName="MH.RescueModel.consultation">
+              <MappingFragment StoreEntitySet="consultation">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="chief_complaint" ColumnName="chief_complaint" />
+                <ScalarProperty Name="present_illness_history" ColumnName="present_illness_history" />
+                <ScalarProperty Name="primary_diagnosis" ColumnName="primary_diagnosis" />
+                <ScalarProperty Name="treatment_plan" ColumnName="treatment_plan" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="admission_dt" ColumnName="admission_dt" />
+                <ScalarProperty Name="rejected_reason" ColumnName="rejected_reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="consultation_conclusion">
+            <EntityTypeMapping TypeName="MH.RescueModel.consultation_conclusion">
+              <MappingFragment StoreEntitySet="consultation_conclusion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="consultation_id" ColumnName="consultation_id" />
+                <ScalarProperty Name="specialist_id" ColumnName="specialist_id" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="conclusion" ColumnName="conclusion" />
+                <ScalarProperty Name="conclude_dt" ColumnName="conclude_dt" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="consultation_resource">
+            <EntityTypeMapping TypeName="MH.RescueModel.consultation_resource">
+              <MappingFragment StoreEntitySet="consultation_resource">
+                <ScalarProperty Name="consultation_id" ColumnName="consultation_id" />
+                <ScalarProperty Name="emr_id" ColumnName="emr_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="decision_support">
+            <EntityTypeMapping TypeName="MH.RescueModel.decision_support">
+              <MappingFragment StoreEntitySet="decision_support">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="disease_name" ColumnName="disease_name" />
+                <ScalarProperty Name="disease_position" ColumnName="disease_position" />
+                <ScalarProperty Name="symptoms" ColumnName="symptoms" />
+                <ScalarProperty Name="signs" ColumnName="signs" />
+                <ScalarProperty Name="image_indication" ColumnName="image_indication" />
+                <ScalarProperty Name="lab_indication" ColumnName="lab_indication" />
+                <ScalarProperty Name="key_point_diagnosis" ColumnName="key_point_diagnosis" />
+                <ScalarProperty Name="emergency_treatment" ColumnName="emergency_treatment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_common">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_common">
+              <MappingFragment StoreEntitySet="dic_common">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_common_item">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_common_item">
+              <MappingFragment StoreEntitySet="dic_common_item">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="dic_id" ColumnName="dic_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_county">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_county">
+              <MappingFragment StoreEntitySet="dic_county">
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_hospital">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_hospital">
+              <MappingFragment StoreEntitySet="dic_hospital">
+                <ScalarProperty Name="county_id" ColumnName="county_id" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="is_governmental" ColumnName="is_governmental" />
+                <ScalarProperty Name="is_specialized" ColumnName="is_specialized" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_live_channel">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_live_channel">
+              <MappingFragment StoreEntitySet="dic_live_channel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="push_url" ColumnName="push_url" />
+                <ScalarProperty Name="pull_url" ColumnName="pull_url" />
+                <ScalarProperty Name="player_code" ColumnName="player_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dic_province">
+            <EntityTypeMapping TypeName="MH.RescueModel.dic_province">
+              <MappingFragment StoreEntitySet="dic_province">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emr_image">
+            <EntityTypeMapping TypeName="MH.RescueModel.emr_image">
+              <MappingFragment StoreEntitySet="emr_image">
+                <ScalarProperty Name="emr_id" ColumnName="emr_id" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emr_index">
+            <EntityTypeMapping TypeName="MH.RescueModel.emr_index">
+              <MappingFragment StoreEntitySet="emr_index">
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="img_count" ColumnName="img_count" />
+                <ScalarProperty Name="contents" ColumnName="contents" />
+                <ScalarProperty Name="contents_t" ColumnName="contents_t" />
+                <ScalarProperty Name="hospital" ColumnName="hospital" />
+                <ScalarProperty Name="hospital_t" ColumnName="hospital_t" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emr_patient">
+            <EntityTypeMapping TypeName="MH.RescueModel.emr_patient">
+              <MappingFragment StoreEntitySet="emr_patient">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="emergency_contact_number" ColumnName="emergency_contact_number" />
+                <ScalarProperty Name="diagnosis" ColumnName="diagnosis" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="past_history" ColumnName="past_history" />
+                <ScalarProperty Name="personal_history" ColumnName="personal_history" />
+                <ScalarProperty Name="family_history" ColumnName="family_history" />
+                <ScalarProperty Name="allergy_history" ColumnName="allergy_history" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emr_type">
+            <EntityTypeMapping TypeName="MH.RescueModel.emr_type">
+              <MappingFragment StoreEntitySet="emr_type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="init_no" ColumnName="init_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="message">
+            <EntityTypeMapping TypeName="MH.RescueModel.message">
+              <MappingFragment StoreEntitySet="message">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message_sender_id" ColumnName="message_sender_id" />
+                <ScalarProperty Name="message_receiver_id" ColumnName="message_receiver_id" />
+                <ScalarProperty Name="message_sender_name" ColumnName="message_sender_name" />
+                <ScalarProperty Name="message_receiver_name" ColumnName="message_receiver_name" />
+                <ScalarProperty Name="sent_dt" ColumnName="sent_dt" />
+                <ScalarProperty Name="message_content" ColumnName="message_content" />
+                <ScalarProperty Name="is_read" ColumnName="is_read" />
+                <ScalarProperty Name="is_deleted" ColumnName="is_deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="news">
+            <EntityTypeMapping TypeName="MH.RescueModel.news">
+              <MappingFragment StoreEntitySet="news">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="author_name" ColumnName="author_name" />
+                <ScalarProperty Name="author_org" ColumnName="author_org" />
+                <ScalarProperty Name="contents" ColumnName="contents" />
+                <ScalarProperty Name="post_user_id" ColumnName="post_user_id" />
+                <ScalarProperty Name="post_user_name" ColumnName="post_user_name" />
+                <ScalarProperty Name="post_dt" ColumnName="post_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="news_comments">
+            <EntityTypeMapping TypeName="MH.RescueModel.news_comments">
+              <MappingFragment StoreEntitySet="news_comments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="news_id" ColumnName="news_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="news_image">
+            <EntityTypeMapping TypeName="MH.RescueModel.news_image">
+              <MappingFragment StoreEntitySet="news_image">
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="news_id" ColumnName="news_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sms_message_queue">
+            <EntityTypeMapping TypeName="MH.RescueModel.sms_message_queue">
+              <MappingFragment StoreEntitySet="sms_message_queue">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="contents" ColumnName="contents" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_apply">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_apply">
+              <MappingFragment StoreEntitySet="teaching_apply">
+                <ScalarProperty Name="teaching_id" ColumnName="teaching_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_category">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_category">
+              <MappingFragment StoreEntitySet="teaching_category">
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_comments">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_comments">
+              <MappingFragment StoreEntitySet="teaching_comments">
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="is_liv" ColumnName="is_liv" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="teaching_id" ColumnName="teaching_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_like">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_like">
+              <MappingFragment StoreEntitySet="teaching_like">
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="is_liv" ColumnName="is_liv" />
+                <ScalarProperty Name="teaching_id" ColumnName="teaching_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_liv">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_liv">
+              <MappingFragment StoreEntitySet="teaching_liv">
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="specialist_id" ColumnName="specialist_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="creator_id" ColumnName="creator_id" />
+                <ScalarProperty Name="view_count" ColumnName="view_count" />
+                <ScalarProperty Name="like_count" ColumnName="like_count" />
+                <ScalarProperty Name="apply_count" ColumnName="apply_count" />
+                <ScalarProperty Name="start_dt" ColumnName="start_dt" />
+                <ScalarProperty Name="end_dt" ColumnName="end_dt" />
+                <ScalarProperty Name="apply_max" ColumnName="apply_max" />
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="teacher_name" ColumnName="teacher_name" />
+                <ScalarProperty Name="teacher_title" ColumnName="teacher_title" />
+                <ScalarProperty Name="teacher_dept" ColumnName="teacher_dept" />
+                <ScalarProperty Name="teacher_org" ColumnName="teacher_org" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teaching_vod">
+            <EntityTypeMapping TypeName="MH.RescueModel.teaching_vod">
+              <MappingFragment StoreEntitySet="teaching_vod">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="specialist_id" ColumnName="specialist_id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="material_id" ColumnName="material_id" />
+                <ScalarProperty Name="video_code" ColumnName="video_code" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="creator_id" ColumnName="creator_id" />
+                <ScalarProperty Name="view_count" ColumnName="view_count" />
+                <ScalarProperty Name="like_count" ColumnName="like_count" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="video_type" ColumnName="video_type" />
+                <ScalarProperty Name="pull_url" ColumnName="pull_url" />
+                <ScalarProperty Name="teacher_name" ColumnName="teacher_name" />
+                <ScalarProperty Name="teacher_title" ColumnName="teacher_title" />
+                <ScalarProperty Name="teacher_dept" ColumnName="teacher_dept" />
+                <ScalarProperty Name="teacher_org" ColumnName="teacher_org" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_account">
+            <EntityTypeMapping TypeName="MH.RescueModel.user_account">
+              <MappingFragment StoreEntitySet="user_account">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="mobile_number" ColumnName="mobile_number" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="hospital_name" ColumnName="hospital_name" />
+                <ScalarProperty Name="id_number" ColumnName="id_number" />
+                <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_collect_record">
+            <EntityTypeMapping TypeName="MH.RescueModel.user_collect_record">
+              <MappingFragment StoreEntitySet="user_collect_record">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="content_type" ColumnName="content_type" />
+                <ScalarProperty Name="content_id" ColumnName="content_id" />
+                <ScalarProperty Name="collect_dt" ColumnName="collect_dt" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_download_record">
+            <EntityTypeMapping TypeName="MH.RescueModel.user_download_record">
+              <MappingFragment StoreEntitySet="user_download_record">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="content_type" ColumnName="content_type" />
+                <ScalarProperty Name="content_id" ColumnName="content_id" />
+                <ScalarProperty Name="download_dt" ColumnName="download_dt" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_im">
+            <EntityTypeMapping TypeName="MH.RescueModel.user_im">
+              <MappingFragment StoreEntitySet="user_im">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="server_id" ColumnName="server_id" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_share_record">
+            <EntityTypeMapping TypeName="MH.RescueModel.user_share_record">
+              <MappingFragment StoreEntitySet="user_share_record">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="content_type" ColumnName="content_type" />
+                <ScalarProperty Name="content_id" ColumnName="content_id" />
+                <ScalarProperty Name="share_dt" ColumnName="share_dt" />
+                <ScalarProperty Name="share_to" ColumnName="share_to" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patientcase">
+            <EntityTypeMapping TypeName="MH.RescueModel.patientcase">
+              <MappingFragment StoreEntitySet="patientcase">
+                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="rejected_reason" ColumnName="rejected_reason" />
+                <ScalarProperty Name="admission_dt" ColumnName="admission_dt" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="modified_dt" ColumnName="modified_dt" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="allergy_history" ColumnName="allergy_history" />
+                <ScalarProperty Name="family_history" ColumnName="family_history" />
+                <ScalarProperty Name="personal_history" ColumnName="personal_history" />
+                <ScalarProperty Name="past_history" ColumnName="past_history" />
+                <ScalarProperty Name="treatment_plan" ColumnName="treatment_plan" />
+                <ScalarProperty Name="primary_diagnosis" ColumnName="primary_diagnosis" />
+                <ScalarProperty Name="present_illness_history" ColumnName="present_illness_history" />
+                <ScalarProperty Name="chief_complaint" ColumnName="chief_complaint" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patientcase_conclusion">
+            <EntityTypeMapping TypeName="MH.RescueModel.patientcase_conclusion">
+              <MappingFragment StoreEntitySet="patientcase_conclusion">
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+                <ScalarProperty Name="conclusion" ColumnName="conclusion" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="case_id" ColumnName="case_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patientcase_image">
+            <EntityTypeMapping TypeName="MH.RescueModel.patientcase_image">
+              <MappingFragment StoreEntitySet="patientcase_image">
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="case_id" ColumnName="case_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="article_listview">
+            <EntityTypeMapping TypeName="MH.RescueModel.article_listview">
+              <MappingFragment StoreEntitySet="article_listview">
+                <ScalarProperty Name="publish_dt" ColumnName="publish_dt" />
+                <ScalarProperty Name="apply_id" ColumnName="apply_id" />
+                <ScalarProperty Name="like_count" ColumnName="like_count" />
+                <ScalarProperty Name="download_count" ColumnName="download_count" />
+                <ScalarProperty Name="file_size" ColumnName="file_size" />
+                <ScalarProperty Name="file_path" ColumnName="file_path" />
+                <ScalarProperty Name="file_type" ColumnName="file_type" />
+                <ScalarProperty Name="author_dept" ColumnName="author_dept" />
+                <ScalarProperty Name="author_org" ColumnName="author_org" />
+                <ScalarProperty Name="author_name" ColumnName="author_name" />
+                <ScalarProperty Name="summary" ColumnName="summary" />
+                <ScalarProperty Name="keyword" ColumnName="keyword" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="article_id" ColumnName="article_id" />
+                <ScalarProperty Name="apply_user_name" ColumnName="apply_user_name" />
+                <ScalarProperty Name="rejected_reason" ColumnName="rejected_reason" />
+                <ScalarProperty Name="admission_dt" ColumnName="admission_dt" />
+                <ScalarProperty Name="apply_status" ColumnName="apply_status" />
+                <ScalarProperty Name="apply_dt" ColumnName="apply_dt" />
+                <ScalarProperty Name="apply_user_id" ColumnName="apply_user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patientcase_imageview">
+            <EntityTypeMapping TypeName="MH.RescueModel.patientcase_imageview">
+              <MappingFragment StoreEntitySet="patientcase_imageview">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="oss_thumbnail_url" ColumnName="oss_thumbnail_url" />
+                <ScalarProperty Name="oss_url" ColumnName="oss_url" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="case_image_id" ColumnName="case_image_id" />
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="case_id" ColumnName="case_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="news_imageview">
+            <EntityTypeMapping TypeName="MH.RescueModel.news_imageview">
+              <MappingFragment StoreEntitySet="news_imageview">
+                <ScalarProperty Name="sorting_no" ColumnName="sorting_no" />
+                <ScalarProperty Name="thumbnail" ColumnName="thumbnail" />
+                <ScalarProperty Name="oss_url" ColumnName="oss_url" />
+                <ScalarProperty Name="oss_thumbnail_url" ColumnName="oss_thumbnail_url" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="image_id" ColumnName="image_id" />
+                <ScalarProperty Name="news_id" ColumnName="news_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

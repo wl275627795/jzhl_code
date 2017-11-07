@@ -1,0 +1,221 @@
+﻿@using MH.CMN
+@using MH.Rescue.BIZ
+@model teaching_liv
+
+@{
+    var user = ViewBag.CurrentUser as user_account;
+    var comments = ViewBag.Comments as List<teaching_comments>;
+}
+<div data-page="liv-detail" class="page navbar-fixed no-tabbar no-main-tabbar page-on-center">
+
+    <div class="navbar bg-blue color-white">
+        <div class="navbar-inner">
+            <div class="left">
+                @if (Request.QueryString["fromfav"] == "true")
+                {
+                    <a href="/account/myfav" class="back link icon-only" data-force="true">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+                else
+                {
+                    <a href="/teaching/index" class="back link icon-only">
+                        <i class="icon icon-back color-white"></i>
+                    </a>
+                }
+            </div>
+            <div class="center">
+                教学直播详情
+            </div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <div class="toolbar toolbar-bottom">
+        @if (user == null)
+            {
+            <div class="toolbar-inner" onclick="TeachingDetailNeedSignin()">
+                <a href="#" class="link">
+                    <i class="f7-icons">forward</i>
+                    <span>分享</span>
+                </a>
+                <a href="#" class="link">
+                    <i class="f7-icons">today</i>
+                    <span>未报名</span>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="toolbar-inner">
+                <a href="#" data-popover=".popover-menu-share" class="open-popover link">
+                    <i class="f7-icons">forward_fill</i>
+                    <span>分享</span>
+                </a>
+                @{
+                    var apply = Model.teaching_apply.FirstOrDefault(t => t.user_id == user.id);
+                
+                    if (apply != null) // 已报名
+                    {
+                        <a href="#" class="link" onclick="DeleteTeachingApply(@apply.id)">
+                            <i class="f7-icons">today_fill</i>
+                            <span>取消报名</span>
+                        </a>
+                    }
+                    else if ((Model.apply_max>0) &&((Model.apply_max - Model.teaching_apply.Count() )<=0) ) // 报名已满
+                    {
+                        <a href="#" class="link">
+                            <i class="f7-icons">today_fill</i>
+                            <span>报名已满</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" class="link" onclick="SubmitTeachingApply(@Model.id, @user.id)">
+                            <i class="f7-icons">today</i>
+                            <span>我要报名</span>
+                        </a>
+                    }
+                }
+            </div>
+                    }
+    </div>
+
+    <div class="page-content hide-bars-on-scroll">
+
+        @if (Model.cmn_image != null) // 有封面图片
+            {
+                var img_url = "/FileUpload/teaching_liv/" + Model.id.ToString() + "/" + Model.cmn_image.thumbnail;
+            <div>
+                <div class="link item-content">
+                    <div class="item-inner" style="position:relative; background-image:url('@img_url'); height:200px; background-size:cover;">
+
+                        <div style="position:absolute; font-size:20px; z-index:1000; bottom:10px; left:0; opacity:0.5; background-color:#000; padding:10px;">
+                            @Model.title
+                        </div>
+                        <div style="position:absolute; font-size:20px; z-index:1000; bottom:10px; left:0; padding:10px;" class="color-white">
+                            @Model.title
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="list-block media-list no-margin-top-2">
+            <ul>
+                @if (Model.cmn_image == null) // 无封面图片，显示标题
+                {
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner detail-title">
+                                @Model.title
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li>
+                    <div class="item-content">
+                        <div class="item-media">
+                            <img src="~/Contents/image/avatar/default/@(Model.specialist_user.avatar)" width="44">
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">@Model.teacher_name @Model.teacher_title</div>
+                            </div>
+                            <div class="item-subtitle" style="opacity:0.5;">@Model.teacher_org @Model.teacher_dept</div>
+                            <div>
+                                <small>直播时间 @Model.start_dt.ToString(Const.DateTimeFormat) ~ @Model.end_dt.ToString("HH:mm")</small>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div>@Model.description</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="/teaching/LivApplyList?id=@(Model.id)" class="item-link item-content">
+                        <div class="item-media">
+                            <i class="f7-icons color-blue">persons</i>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="">@(Model.apply_max == 0 ? "无报名人数限制" : "报名人数限制: " + Model.apply_max)</div>
+                                <div class="item-after">已@(Model.teaching_apply.Count())人报名</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-block-title">添加评论</div>
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <textarea id="txtTeachingComments" placeholder="请输入评论内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            @if (user == null)
+            {
+                <div style="padding:15px 15px 45px 15px;">
+                    <a href="#" class="open-login-screen">登录</a>
+                    后可以发表评论
+                </div>
+            }
+            else
+            {
+                <div class="row" style="padding:15px 15px 45px 15px;">
+                    <div class="col-50">
+                        <a href="#" class="button button-fill color-blue active" onclick="SubmitTeachingComments(@(Model.id), 1)">发布评论</a>
+                    </div>
+                    <div class="col-50"></div>
+                </div>
+            }
+        </div>
+
+        @if (comments.Count > 0)
+            {
+            <div class="content-block-title">@(comments.Count)条评论</div>
+            <div class="list-block media-list">
+                <ul>
+                    @foreach (var item in comments)
+                    {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><img src="~/Contents/image/avatar/default/@(item.user_account.avatar)" width="44"></div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">@item.user_name</div>
+                                        <div class="item-after">@item.created_dt.ToString("yyyy/MM/dd HH:mm")</div>
+                                    </div>
+                                    <div class="">@item.comments</div>
+                                    @if (user != null && user.id == item.user_id)
+                                    {
+                                        <div style="text-align:right; padding-top:5px;">
+                                            <a href="#" class="color-red" onclick="DeleteTeachingComments(@item.id)">
+                                                <span>删除评论</span>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        
+
+    </div>
+
+</div>

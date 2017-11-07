@@ -1,0 +1,200 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "直播管理";
+}
+
+<script>
+    
+    window.onload = function () {
+        Table_S();
+        page();
+    }
+     //分页
+    function page() {
+        $("#B_down").attr("disabled", true);
+        $("#B_UP").attr("disabled", true);
+        if (Math.ceil((($("#L_Count").html() * 1) / 15)) > 1) {
+            $("#B_down").attr("disabled", false);
+        }
+        if ($("#H_page").val() > 1) {
+            $("#B_UP").attr("disabled", false);
+        }
+    }
+    function LiveSearch() {
+        $("#Live_Table  tr:not(:first)").html("");
+        $("#H_page").val("1");
+        Table_S();
+        page();
+    }
+
+    function UP() { //上一页
+        $("#Live_Table  tr:not(:first)").html("");
+        if ($("#H_page").val() == "2") {
+            $("#B_UP").attr("disabled", true);
+            $("#B_down").attr("disabled", false);
+        } else {
+            $("#B_down").attr("disabled", false);
+        }
+        $("#H_page").val(($("#H_page").val() * 1) - 1);
+        Table_S();
+    }
+
+    function Down() { //下一页
+        $("#Live_Table  tr:not(:first)").html("");
+        if ((($("#H_page").val() * 1) + 1) == Math.ceil((($("#L_Count").html() * 1) / 15))) {
+            $("#B_down").attr("disabled", true);
+            $("#B_UP").attr("disabled", false);
+        } else {
+            $("#B_UP").attr("disabled", false);
+        }
+        $("#H_page").val(($("#H_page").val() * 1) + 1);
+        Table_S();
+    }
+
+    //绑定表单
+    function Table_S() {
+        $.ajax({
+            url: "/admin/LiveListT",
+            type: "Post",
+            dataType: "json",
+            async: false,
+            data: { Title: $("#Live_Title").val(), Speaker: $("#Live_Speaker").val(), Section: $("#Live_Section").val(), Publisher: $("#Live_Publisher").val(), Channel: $("#Live_Channel").val(), Date_t: $("#Live_Date").val(), page: $("#H_page").val() },
+            success: function (data) {
+                $("#L_Count").html(data.Count);
+              
+                for (var i = 0; i < (data.data).length; i++) {
+                    //给table赋值
+                    var tr = $("<tr></tr>");
+                    tr.appendTo($("#Live_Table"));
+                    for (var row in (data.data)[i]) {
+                        if (row != "id") {
+                            var td;
+                            if (row == "start_dt" || row == "end_dt" || row == "created_dt") {
+                                td = $("<td>" + ((data.data)[i][row]).ToString("yyyy/MM/dd hh:mm:ss ") + "</td>");
+                            } else {
+                                 td = $("<td>" + (data.data)[i][row] + "</td>");
+                            }
+                            td.appendTo(tr);
+                        }
+                    }
+                    var tr_Oper = $("<td class=\"align-center\"><a href=\"/admin/LiveDetail/" + (data.data)[i].id + "\">查看详情</a> | <a href=\"/admin/LiveDelete/" + (data.data)[i].id + "\">删除</a></td>");
+                    tr_Oper.appendTo(tr);
+                    tr.appendTo($("#Live_Table"));
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("加载失败：" + errorThrown);
+            }
+        });
+        //  $("#Live_Table").append(S_Html);
+    }
+</script>
+<ul class="horizontal-menu compact bg-white border-bottom" style="padding-left:15px;">
+    <li>
+        <a href="#" style="border-bottom: solid 4px;" class="bd-lightBlue text-bold">
+            直播课程列表
+        </a>
+    </li>
+    <li><a href="#">直播课程发布</a></li>
+    <li><a href="#">直播课程统计</a></li>
+    <li style="float: right; margin-top: -1px;"> <button class="button"  onclick="window.location.href = '/admin/createlive'">
+                    <span class="mif-compass"></span>
+                    发布新的直播课程
+                </button></li>
+</ul>
+<div class="padding10">
+    <table style="width:100%; table-layout:fixed;" cellpadding="5">
+        <tr>
+            <td>
+
+                <div class="half-opacity">标题</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Live_Title">
+                    <input type="hidden" value="1" id="H_page" />
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">主讲人姓名</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Live_Speaker">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">主讲人科室</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Live_Section">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">发布者</div>
+                <div class="input-control text full-size">
+                    <input type="text" id="Live_Publisher">
+                </div>
+            </td>
+            <td>
+                <div class="half-opacity">频道</div>
+                <select class="input-control select full-size" id="Live_Channel">
+                    <option>全部</option>
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </td>
+            <td>
+                <div class="half-opacity">发布日期</div>
+                <select class="input-control select full-size" id="Live_Date">
+                    <option>全部</option>
+                    <option>最近1周</option>
+                    <option>最近1月</option>
+                    <option>最近半年</option>
+                </select>
+            </td>
+            <td style="width:250px;">
+                <div>&nbsp;</div>
+                <button class="button primary" onclick="LiveSearch()">
+                    <span class="mif-search" ></span>
+                    查询
+                </button>
+                <button class="button">
+                    <span class="mif-undo"></span>
+                    重置
+                </button>
+
+            </td>
+        </tr>
+    </table>
+
+    <div style="padding:0 5px;">
+        <table class="table border bordered bg-white hovered" id="Live_Table">
+            <tr class="bg-grayLight fg-white">
+                <td>标题</td>
+                <td>主讲人姓名</td>
+                <td>主讲人职称</td>
+                <td>主讲人单位</td>
+                <td>主讲人科室</td>
+                <td>开始时间</td>
+                <td>结束时间</td>
+                <td>频道</td>
+                <td>发布者</td>
+                <td>发布日期</td>
+                <td style="width:240px;">操作</td>
+            </tr>
+            <!--获取文章列表-->
+         
+        </table>
+
+        <table style="width:100%; table-layout:fixed;">
+            <tr>
+                <td>
+                    <span>共 <label id="L_Count"></label> 条</span>
+                </td>
+                <td class="align-center">
+                    <button class="button mif-previous" disabled="true" id="B_UP" onclick="UP()"></button>
+                    <button class="button mif-next" disabled="true" id="B_down" onclick="Down()"></button>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
